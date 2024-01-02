@@ -65,8 +65,8 @@ const menu: SidebarNavItem[] = [
         icon: <LineChart size={16} />,
       },
       {
-        title: "Bill",
-        href: "/dashboard/list",
+        title: "API Key",
+        href: "/dashboard/projects/bk/api-key",
         icon: <Receipt size={16} />,
       },
     ],
