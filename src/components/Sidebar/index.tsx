@@ -25,6 +25,7 @@ import {
 import { cn } from "@/lib/utils"
 
 import { Button } from "../ui/button"
+import { ProjectSelector } from "./project-selector"
 
 export type SidebarNavItem = {
   title: string
@@ -44,23 +45,23 @@ const menu: SidebarNavItem[] = [
     title: "Dashboard",
     items: [
       {
-        title: "Home",
-        href: "/dashboard",
+        title: "Overview",
+        href: "/dashboard/projects/bk/overview",
         icon: <Home size={16} />,
       },
       {
-        title: "Form",
-        href: "/dashboard/form",
+        title: "Apperance",
+        href: "/dashboard/projects/bk/apperance",
         icon: <GanttChartSquare size={16} />,
       },
       {
-        title: "Table",
-        href: "/dashboard/table",
+        title: "Submissions",
+        href: "/dashboard/projects/bk/submissions",
         icon: <Table size={16} />,
       },
       {
-        title: "Charts",
-        href: "/dashboard/analytics",
+        title: "Usage",
+        href: "/dashboard/projects/bk/usage",
         icon: <LineChart size={16} />,
       },
       {
@@ -106,9 +107,12 @@ export default function Sidebar({ className, onClick }: SidebarProps) {
   const pathName = usePathname()
 
   return (
-    <div className={cn("flex h-full w-[240px] flex-col", className)}>
+    <div className={cn("flex h-full w-[240px] flex-col overflow-y-auto", className)}>
       <div className='flex h-16 w-full items-center justify-center gap-2 border-b text-lg font-medium'>
         Hello-Admin
+      </div>
+      <div className="px-3 py-2">
+        <ProjectSelector />
       </div>
       <div className='py-4'>
         {menu.map((item, index) => (
