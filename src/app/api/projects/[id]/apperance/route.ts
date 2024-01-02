@@ -1,10 +1,11 @@
 import { supabaseServer } from "@/lib/supabase";
-import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { generateRandomCode } from "@/lib/rand";
+import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async (req: NextRequest, context: { params: { id: string } }) => {
     try {
+        const short_id = context.params.id
+
         const cookieStore = cookies()
         const supabase = supabaseServer(cookieStore);
         const { data: { user }, error: userError } = await supabase.auth.getUser()
@@ -17,7 +18,17 @@ export const GET = async (req: NextRequest) => {
             })
         }
 
-        const { data, error } = await supabase.from("sites").select("*").eq('user_id', user.id)
+        const { data: site, error: siteError } = await supabase.from("sites").select("*").eq("user_id", user.id).eq("short_id", short_id);
+
+        if (siteError) {
+            return NextResponse.json({
+                error: {
+                    message: siteError.message
+                }
+            })
+        }
+
+        const { data, error } = await supabase.from("forms").select("*").eq('site_id', site[0].id)
 
         if (error) {
             return NextResponse.json({
@@ -27,7 +38,7 @@ export const GET = async (req: NextRequest) => {
             })
         }
 
-        return NextResponse.json(data)
+        return NextResponse.json(data[0])
 
     } catch (err: any) {
         return NextResponse.json({
@@ -38,10 +49,10 @@ export const GET = async (req: NextRequest) => {
     }
 }
 
-export const POST = async (req: NextRequest) => {
+export const POST = async (req: NextRequest, context: { params: { id: string } }) => {
     try {
-        const { name, url } = await req.json() as { name: string; url: string } 
-        let short_id = generateRandomCode()
+        const { form_position } = await req.json() as { form_position: 'start' | 'end' | 'center' } 
+        const short_id = context.params.id
 
         const cookieStore = cookies()
         const supabase = supabaseServer(cookieStore);
@@ -55,18 +66,21 @@ export const POST = async (req: NextRequest) => {
             })
         }
 
-        let { count } = await supabase.from("sites").select('*', { count: 'exact' }).eq('short_id', short_id)
-        while(!count) {
-            short_id = generateRandomCode()
-            let { count: newCount } = await supabase.from("sites").select('*', { count: 'exact' }).eq('short_id', short_id)
-            count = newCount
-        } 
+        const { data: site, error: siteError } = await supabase.from("sites").select("*").eq("user_id", user.id).eq("short_id", short_id);
 
-        const { data, error } = await supabase.from("sites").insert({
-            name,
-            url,
-            short_id,
-            user_id: user.id
+        if (siteError) {
+            return NextResponse.json({
+                error: {
+                    message: siteError.message
+                }
+            })
+        }
+
+        const { data, error } = await supabase.from("forms").insert({
+            site_id: site[0].id,
+            custom_form: {
+                position: form_position,
+            }
         }).select("*")
 
         if (error) {
