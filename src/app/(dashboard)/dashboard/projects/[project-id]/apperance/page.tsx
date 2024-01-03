@@ -1,5 +1,3 @@
-"use client";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   AlignCenterVertical,
@@ -8,12 +6,12 @@ import {
   StretchHorizontal,
   StretchVertical,
 } from "lucide-react";
-import React, { useState } from "react";
-import { ColorPicker } from "./color-picker";
 import { ColorStyle } from "./color-style";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { BasicForm } from "./components/basic-form";
 
 const Apperance = () => {
-  const [color, setColor] = useState("#eeeeee");
   return (
     <div>
       <h1 className="text-4xl font-bold">Apperance</h1>
@@ -29,43 +27,7 @@ const Apperance = () => {
               <h2 className="text-3xl font-medium">Basic</h2>
               <p className="text-zinc-700">Customise the basic look and feel</p>
 
-              <div className="mt-4">
-                <h3 className="text-sm font-medium text-zinc-800">
-                  Form Position
-                </h3>
-                <p className="text-xs text-zinc-700">
-                  Form will algin to parent container
-                </p>
-                <div className="mt-4 flex gap-4">
-                  <div className="hover:bg-zinc-200 p-2 rounded cursor-pointer">
-                    <AlignEndVertical />
-                  </div>
-                  <div className="hover:bg-zinc-200 p-2 rounded cursor-pointer">
-                    <AlignCenterVertical />
-                  </div>
-                  <div className="hover:bg-zinc-200 p-2 rounded cursor-pointer">
-                    <AlignStartVertical />
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4">
-                <h3 className="text-sm font-medium text-zinc-800">
-                  Items Alignment
-                </h3>
-                <p className="text-xs text-zinc-700">
-                  Form will algin to parent container
-                </p>
-                <div className="mt-4 flex gap-4">
-                  <div className="hover:bg-zinc-200 p-2 rounded cursor-pointer">
-                    <StretchHorizontal />
-                  </div>
-                  <div className="hover:bg-zinc-200 p-2 rounded cursor-pointer">
-                    <StretchVertical />
-                  </div>
-                </div>
-              </div>
-
-              
+              <BasicForm />
             </TabsContent>
             <TabsContent value="look">
               <h2 className="text-3xl font-medium">Look</h2>
