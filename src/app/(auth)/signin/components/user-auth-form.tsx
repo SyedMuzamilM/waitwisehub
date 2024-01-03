@@ -50,7 +50,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     }
 
     if (data) {
-        router.push('/dashboard')
+        router.push('/dashboard/projects')
     }
   }
 
