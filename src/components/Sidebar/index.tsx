@@ -42,7 +42,7 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const menu: SidebarNavItem[] = [
   {
-    title: "Dashboard",
+    title: "Project",
     items: [
       {
         title: "Overview",
@@ -72,32 +72,12 @@ const menu: SidebarNavItem[] = [
     ],
   },
   {
-    title: "Components",
+    title: "Settings",
     items: [
       {
         title: "Inputs",
         href: "/dashboard/inputs",
         icon: <FormInput size={16} />,
-      },
-      {
-        title: "Feedback",
-        href: "/dashboard/feedback",
-        icon: <MessageSquarePlus size={16} />,
-      },
-      {
-        title: "Display",
-        href: "/dashboard/display",
-        icon: <Container size={16} />,
-      },
-      {
-        title: "Navigaion",
-        href: "/dashboard/navigation",
-        icon: <Navigation size={16} />,
-      },
-      {
-        title: "Surfaces",
-        href: "/dashboard/surfaces",
-        icon: <Layers3 size={16} />,
       },
     ],
   },
