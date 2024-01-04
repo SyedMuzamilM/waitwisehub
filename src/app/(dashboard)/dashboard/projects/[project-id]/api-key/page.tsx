@@ -72,7 +72,7 @@ const ApiKey = () => {
       <p className="text-zinc-700">
         Do not share your API key with others, or expose it in the browser or
         other client-side code. In order to protect the security of your
-        account, OpenAI may also automatically disable any API key that we've
+        account, OpenAI may also automatically disable any API key that we&apos;ve
         found has leaked publicly.
       </p>
 
@@ -90,7 +90,7 @@ const ApiKey = () => {
             </thead>
             <tbody>
               {apiKeys.map((key) => (
-                <tr className="text-left text-zinc-700 border-b">
+                <tr key={key.created_at} className="text-left text-zinc-700 border-b">
                   <td className="p-2">{key.name}</td>
                   <td className="p-2">{key.partial_key}</td>
                   <td className="p-2">
