@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from 'next/headers'
 import { supabaseServer } from "@/lib/supabase";
+import { url as siteUrl } from '@/lib/constants'
 
 export const GET = async (req: Request) => {
   try {
@@ -16,7 +17,7 @@ export const GET = async (req: Request) => {
         await supabase.auth.exchangeCodeForSession(code);
       }
     
-      return NextResponse.redirect("http://localhost:3000/dashboard")
+      return NextResponse.redirect(`${siteUrl}/dashboard/projects`)
   } catch (err) {
     console.log(err)
     return NextResponse.json({ error: err })
