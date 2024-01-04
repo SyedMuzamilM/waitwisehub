@@ -1,4 +1,5 @@
 import { Icons } from "@/components/icons";
+import { url } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { FormMetadata } from "@/types";
 import React from "react";
@@ -26,7 +27,7 @@ const getColor = (key: string, color: string) => {
 
 const EmbedWaitlistFrom = async ({ params }: { params: { id: string } }) => {
   const res = await fetch(
-    `http://localhost:3000/api/projects/${params.id}/apperance`
+    `${url}/api/projects/${params.id}/apperance`
   );
   const result = await res.json();
   const customForm = result.custom_form as FormMetadata;
@@ -45,7 +46,7 @@ const EmbedWaitlistFrom = async ({ params }: { params: { id: string } }) => {
     <section className="container py-8">
       <form
         method="GET"
-        action={`http://localhost:3000/api/submission/${params.id}`}
+        action={`${url}/api/submission/${params.id}`}
         className={cn(
           "flex gap-4",
           customForm?.alignment && alignment(customForm.alignment),

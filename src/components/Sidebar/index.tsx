@@ -2,7 +2,7 @@
 
 import React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useParams } from "next/navigation"
 // import { GitHubLogoIcon } from "@radix-ui/react-icons"
 import {
   Container,
@@ -17,6 +17,7 @@ import {
   Mic2,
   Music2,
   Navigation,
+  PackageCheck,
   Receipt,
   Table,
   User,
@@ -40,33 +41,33 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   onClick?: () => void
 }
 
-const menu: SidebarNavItem[] = [
+const menu = (id: string): SidebarNavItem[] => [
   {
     title: "Project",
     items: [
       {
         title: "Overview",
-        href: "/dashboard/projects/bk/overview",
+        href: `/dashboard/projects/${id}/overview`,
         icon: <Home size={16} />,
       },
       {
         title: "Apperance",
-        href: "/dashboard/projects/bk/apperance",
+        href: `/dashboard/projects/${id}/apperance`,
         icon: <GanttChartSquare size={16} />,
       },
       {
         title: "Submissions",
-        href: "/dashboard/projects/bk/submissions",
+        href: `/dashboard/projects/${id}/submissions`,
         icon: <Table size={16} />,
       },
       {
         title: "Usage",
-        href: "/dashboard/projects/bk/usage",
+        href: `/dashboard/projects/${id}/usage`,
         icon: <LineChart size={16} />,
       },
       {
         title: "API Key",
-        href: "/dashboard/projects/bk/api-key",
+        href: `/dashboard/projects/${id}/api-key`,
         icon: <Receipt size={16} />,
       },
     ],
@@ -85,17 +86,18 @@ const menu: SidebarNavItem[] = [
 
 export default function Sidebar({ className, onClick }: SidebarProps) {
   const pathName = usePathname()
+  const params = useParams() as { 'project-id': string }
 
   return (
     <div className={cn("flex h-full w-[240px] flex-col overflow-y-auto", className)}>
-      <div className='flex h-16 w-full items-center justify-center gap-2 border-b text-lg font-medium'>
-        Hello-Admin
+      <div className='flex h-16 w-full items-center px-4 gap-2 border-b text-lg font-medium text-brand'>
+        <PackageCheck className="text-brand-dark" /> waitwisehub
       </div>
       <div className="px-3 py-2">
         <ProjectSelector />
       </div>
       <div className='py-4'>
-        {menu.map((item, index) => (
+        {menu(params["project-id"] ?? '').map((item, index) => (
           <div key={index} className='px-3 py-2'>
             <h2 className='mb-2 px-4 text-lg font-semibold tracking-tight'>
               {item.title}

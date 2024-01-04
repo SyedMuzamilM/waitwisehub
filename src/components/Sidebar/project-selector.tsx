@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/select";
 import { Icons } from "../icons";
 
-import { useParams } from 'next/navigation'
+import { useParams } from "next/navigation";
 import { url } from "@/lib/constants";
+import Link from "next/link";
 
 export type Project = {
   id: string;
@@ -26,7 +27,7 @@ export function ProjectSelector() {
   const [projects, setProjects] = useState<Array<Project>>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const params = useParams() as { 'project-id'?: string }
+  const params = useParams() as { "project-id"?: string };
 
   useEffect(() => {
     setIsLoading(true);
@@ -43,11 +44,11 @@ export function ProjectSelector() {
       }
     };
 
-    fetchProjects()
+    fetchProjects();
   }, []);
 
   return (
-    <Select defaultValue={!isLoading ? params['project-id'] : undefined}> 
+    <Select defaultValue={!isLoading ? params["project-id"] : undefined}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Projects" />
       </SelectTrigger>
@@ -57,11 +58,13 @@ export function ProjectSelector() {
         ) : (
           <SelectGroup>
             {projects.map((project) => (
-              <SelectItem key={project.short_id} value={project.short_id}>{project.name}</SelectItem>
+              <SelectItem key={project.short_id} value={project.short_id}>
+                  <Link href={`/dashboard/projects/${project.short_id}/overview`}>
+                  {project.name}
+              </Link>
+                </SelectItem>
             ))}
-            <SelectItem value="new-project" >
-                New Project
-            </SelectItem>
+            <SelectItem value="new-project">New Project</SelectItem>
           </SelectGroup>
         )}
       </SelectContent>
