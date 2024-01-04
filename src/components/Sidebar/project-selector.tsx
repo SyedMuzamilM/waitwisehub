@@ -57,7 +57,7 @@ export function ProjectSelector() {
         ) : (
           <SelectGroup>
             {projects.map((project) => (
-              <SelectItem value={project.short_id}>{project.name}</SelectItem>
+              <SelectItem key={project.short_id} value={project.short_id}>{project.name}</SelectItem>
             ))}
             <SelectItem value="new-project" >
                 New Project

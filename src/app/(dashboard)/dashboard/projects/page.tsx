@@ -48,7 +48,7 @@ const ProjectsPage = () => {
           <div className="grid grid-cols-3 gap-4">
             {!isLoading &&
               projects.map((it) => (
-                <Card>
+                <Card key={it.short_id}>
                   <CardHeader>
                     <CardTitle>{it.name}</CardTitle>
                     <CardDescription>

@@ -53,7 +53,7 @@ export const SubmissionTable = () => {
       <TableBody>
         {!isLoading &&
           data.map((it, index) => (
-            <TableRow>
+            <TableRow key={it.email}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>{it.email}</TableCell>
               <TableCell>{format(it.created_at, "MMM dd, yyyy")}</TableCell>
