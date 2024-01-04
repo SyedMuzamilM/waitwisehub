@@ -1,7 +1,7 @@
 "use client"
 
 import { createBrowserClient } from '@supabase/ssr'
-import { supabaseUrl, supabaseAnonKey } from "@/lib/constants"
+import { supabaseUrl, supabaseAnonKey, url } from "@/lib/constants"
 
 const SignupPage = () => {
     const supabase = createBrowserClient(
@@ -29,7 +29,7 @@ const SignupPage = () => {
                     'admin': email === 'smmhd121@gmail.com' ? true : false,
                     name
                 },
-                emailRedirectTo: 'http://localhost:3000/api/auth/callback'
+                emailRedirectTo: `${url}/api/auth/callback`
             }
         })
     }

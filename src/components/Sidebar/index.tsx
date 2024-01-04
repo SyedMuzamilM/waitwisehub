@@ -71,16 +71,16 @@ const menu: SidebarNavItem[] = [
       },
     ],
   },
-  {
-    title: "Settings",
-    items: [
-      {
-        title: "Inputs",
-        href: "/dashboard/inputs",
-        icon: <FormInput size={16} />,
-      },
-    ],
-  },
+  // {
+  //   title: "Settings",
+  //   items: [
+  //     {
+  //       title: "Inputs",
+  //       href: "/dashboard/inputs",
+  //       icon: <FormInput size={16} />,
+  //     },
+  //   ],
+  // },
 ]
 
 export default function Sidebar({ className, onClick }: SidebarProps) {

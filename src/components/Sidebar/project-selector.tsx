@@ -5,11 +5,13 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Icons } from "../icons";
+
+import { useParams } from 'next/navigation'
+import { url } from "@/lib/constants";
 
 export type Project = {
   id: string;
@@ -24,10 +26,12 @@ export function ProjectSelector() {
   const [projects, setProjects] = useState<Array<Project>>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const params = useParams() as { 'project-id'?: string }
+
   useEffect(() => {
     setIsLoading(true);
     const fetchProjects = async () => {
-      const res = await fetch("http://localhost:3000/api/projects");
+      const res = await fetch(`${url}/api/projects`);
 
       const json = await res.json();
       if (res.ok) {
@@ -43,7 +47,7 @@ export function ProjectSelector() {
   }, []);
 
   return (
-    <Select>
+    <Select defaultValue={!isLoading ? params['project-id'] : undefined}> 
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Projects" />
       </SelectTrigger>

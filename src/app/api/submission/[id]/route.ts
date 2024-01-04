@@ -2,25 +2,30 @@ import { supabaseServer } from "@/lib/supabase";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest, context: { params: { id: string } }) => {
+export const GET = async (req: NextRequest, context: { params: { id: string } }) => {
     try {
-        console.log(await req.json())
-        console.log(req.body)
-        const { email } = await req.json() as { email: string; } 
+        const url = new URL(req.url)
+        const email = url.searchParams.get('email')
+        // console.log(req.body)
+        // console.log(await req.json())
+        // const { email } = await req.json() as { email: string; } 
         const short_id = context.params.id
 
         const cookieStore = cookies()
         const supabase = supabaseServer(cookieStore);
 
-        const { data, error } = await supabase.from("submission").insert({
+        const { data: site } = await supabase.from("sites").select("*").eq("short_id", short_id).limit(1).single()
+        const { data: form } = await supabase.from("forms").select("*").eq("site_id", site.id).limit(1).single()
+
+        const { data, error } = await supabase.from("submissions").insert({
             email,
-            site_id: short_id
+            form_id: form.id
         }).select("*")
 
         if (error) {
             return NextResponse.json({
                 error: {
-                    message: error?.message ?? "Something went wrong"
+                    message: error.message
                 }
             })
         }
