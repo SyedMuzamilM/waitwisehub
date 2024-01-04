@@ -14,6 +14,7 @@ import { url } from "@/lib/constants";
 import { ChevronRightCircle, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+import { CreateProject } from "./create-project";
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState<Array<Project>>([]);
@@ -57,18 +58,20 @@ const ProjectsPage = () => {
                   </CardHeader>
                   <CardContent>Some stats may be</CardContent>
                   <CardFooter className="flex justify-end">
-                    <Link href={`/dashboard/projects/${it.short_id}`}>
+                    <Link href={`/dashboard/projects/${it.short_id}/overview`}>
                       <ChevronRightCircle />
                     </Link>
                   </CardFooter>
                 </Card>
               ))}
-            <Card className="cursor-pointer">
-              <CardContent className="w-full h-full flex flex-col gap-4 items-center justify-center">
-                <PlusCircle size="40" />
-                <p>Create New Project</p>
-              </CardContent>
-            </Card>
+            <CreateProject>
+              <Card className="cursor-pointer w-full h-full">
+                <CardContent className="w-full h-full flex flex-col gap-4 items-center justify-center">
+                  <PlusCircle size="40" />
+                  <p>Create New Project</p>
+                </CardContent>
+              </Card>
+            </CreateProject>
           </div>
         )}
       </div>
