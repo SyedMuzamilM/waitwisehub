@@ -5,6 +5,7 @@ import { Pencil, Plus, Trash2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { GenerateKey } from "./generate-key";
+import { url } from "@/lib/constants";
 
 type ApiKey = {
   id: string;
@@ -28,7 +29,7 @@ const ApiKey = () => {
 
     if (!name) return;
 
-    const res = await fetch("http://localhost:3000/api/projects/bk/tokens", {
+    const res = await fetch(`${url}/api/projects/bk/tokens`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +48,7 @@ const ApiKey = () => {
 
   useEffect(() => {
     const fetchApiKeys = async () => {
-      const res = await fetch("http://localhost:3000/api/projects/bk/tokens");
+      const res = await fetch(`${url}/api/projects/bk/tokens`);
 
       if (res.ok) {
         const json = await res.json();

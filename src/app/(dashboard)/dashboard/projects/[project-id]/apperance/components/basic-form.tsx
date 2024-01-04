@@ -10,19 +10,13 @@ import {
   StretchHorizontal,
   StretchVertical,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { createBrowserClient } from '@supabase/ssr'
 import { Icons } from "@/components/icons";
+import { BasicFormMetadata } from "@/types";
+import { url } from "@/lib/constants";
 
-export type Metadata = {
-    position: 'start' | 'center' | 'end';
-    alignment: 'stack' | 'inline',
-    button_text: string;
-    input_placeholder: string;
-}
-
-const defaultMetadata: Metadata = {
+const defaultMetadata: BasicFormMetadata = {
     position: 'start',
     alignment: 'stack',
     button_text: 'Submit',
@@ -30,16 +24,35 @@ const defaultMetadata: Metadata = {
 }
 
 export const BasicForm = () => {
-  const [metadata, setMetadata] = useState<Metadata>(defaultMetadata)
+  const [metadata, setMetadata] = useState<BasicFormMetadata>(defaultMetadata)
   const [isLoading, setIsloading] = useState(false)
 
-  const handleChange = (key: keyof Metadata, value: any) => {
+  const handleChange = (key: keyof BasicFormMetadata, value: any) => {
     setMetadata((prev) => ({ ...prev, [key]: value }))
   }
 
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`${url}/api/projects/bk/apperance`)
+
+      if (res.ok) {
+        const data = await res.json()
+        if (data.custom_form) {
+          const json = Object.assign(defaultMetadata, data.custom_form)
+          setMetadata(json)
+        } else {
+         alert(JSON.stringify(data)) 
+        }
+      } else {
+        alert(JSON.stringify(await res.json()))
+      }
+
+    })()
+  }, [])
+
   const handleSave = async () => {
     setIsloading(true)
-    const res = await fetch('http://localhost:3000/api/projects/bk/apperance', {
+    const res = await fetch(`${url}/api/projects/bk/apperance`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

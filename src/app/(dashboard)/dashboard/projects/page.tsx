@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { url } from "@/lib/constants";
 import { ChevronRightCircle, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -21,7 +22,7 @@ const ProjectsPage = () => {
   useEffect(() => {
     setIsLoading(true);
     const fetchProjects = async () => {
-      const res = await fetch("http://localhost:3000/api/projects");
+      const res = await fetch(`${url}/api/projects`);
 
       const json = await res.json();
       if (res.ok) {
