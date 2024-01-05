@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BasicForm } from "./components/basic-form";
 import { LooksForm } from "./components/looks-form";
-import { url } from "@/lib/constants";
+import { FormFrame } from "./components/form-frame";
 
 const Apperance = () => {
   return (
@@ -36,11 +36,7 @@ const Apperance = () => {
               <h3 className="text-2xl font-semibold">Preview</h3>
             </div>
             <div className="h-full pt-4 bg-white">
-              <iframe
-                src={`${url}/w/e/bk`}
-                width="100%"
-                height="100%"
-              />
+              <FormFrame />
             </div>
           </div>
         </div>
