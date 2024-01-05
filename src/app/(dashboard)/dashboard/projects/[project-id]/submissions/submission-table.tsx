@@ -13,16 +13,19 @@ import {
 import { Icons } from "@/components/icons";
 import { format } from "date-fns";
 import { url } from "@/lib/constants";
+import { useParams } from "next/navigation";
 
 export const SubmissionTable = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<{ email: string; created_at: string }[]>([]);
 
+  const params = useParams() as { 'project-id': string }
+
   useEffect(() => {
     setIsLoading(true);
     const getData = async () => {
       const res = await fetch(
-        `${url}/api/projects/bk/submissions`
+        `${url}/api/projects/${params["project-id"]}/submissions`
       );
       const json = await res.json();
       if (res.ok) {
@@ -41,6 +44,14 @@ export const SubmissionTable = () => {
     return <Icons.spinner className="animate-spin" />;
   }
 
+  if (!isLoading && !data.length) {
+    return (
+      <div>
+        <p>There are no submssions yet</p>
+      </div>
+    )
+  }
+
   return (
     <Table>
       <TableHeader>
@@ -52,7 +63,7 @@ export const SubmissionTable = () => {
       </TableHeader>
       <TableBody>
         {!isLoading &&
-          data.map((it, index) => (
+          data?.map((it, index) => (
             <TableRow key={it.email}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>{it.email}</TableCell>
