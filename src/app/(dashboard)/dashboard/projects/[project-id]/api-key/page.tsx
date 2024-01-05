@@ -6,8 +6,9 @@ import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { GenerateKey } from "./generate-key";
 import { url } from "@/lib/constants";
+import { useParams } from 'next/navigation'
 
-type ApiKey = {
+export type ApiKey = {
   id: string;
   expires: string;
   partial_key: string;
@@ -19,36 +20,11 @@ type ApiKey = {
 const ApiKey = () => {
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
 
-  const handleGenerateApiKey = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-
-    const target = e.target as HTMLFormElement;
-    const formData = new FormData(target);
-
-    const name = formData.get("name")?.toString();
-
-    if (!name) return;
-
-    const res = await fetch(`${url}/api/projects/bk/tokens`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-      }),
-    });
-
-    const json = await res.json();
-
-    if (res.ok) {
-      alert(`API Key generated successfully!`);
-    }
-  };
+  const params = useParams() as { "project-id": string }
 
   useEffect(() => {
     const fetchApiKeys = async () => {
-      const res = await fetch(`${url}/api/projects/bk/tokens`);
+      const res = await fetch(`${url}/api/projects/${params["project-id"]}/tokens`);
 
       if (res.ok) {
         const json = await res.json();
@@ -77,7 +53,7 @@ const ApiKey = () => {
       </p>
 
       <div className="border-t mt-4 py-4">
-        <div className="max-w-3xl mb-4">
+        <div className="max-w-3xl mb-4 w-full overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="uppercase text-left border-b">
