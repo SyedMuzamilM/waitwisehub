@@ -51,8 +51,8 @@ const menu = (id: string): SidebarNavItem[] => [
         icon: <Home size={16} />,
       },
       {
-        title: "Apperance",
-        href: `/dashboard/projects/${id}/apperance`,
+        title: "Appearance",
+        href: `/dashboard/projects/${id}/appearance`,
         icon: <GanttChartSquare size={16} />,
       },
       {
