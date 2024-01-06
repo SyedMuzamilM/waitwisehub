@@ -17,9 +17,11 @@ import { useParams } from "next/navigation";
 
 export const SubmissionTable = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<{ email: string; created_at: string }[]>([]);
+  const [data, setData] = useState<
+    { email: string; additional_data: any; created_at: string }[]
+  >([]);
 
-  const params = useParams() as { 'project-id': string }
+  const params = useParams() as { "project-id": string };
 
   useEffect(() => {
     setIsLoading(true);
@@ -49,7 +51,7 @@ export const SubmissionTable = () => {
       <div>
         <p>There are no submssions yet</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -58,6 +60,7 @@ export const SubmissionTable = () => {
         <TableRow>
           <TableHead>S. No.</TableHead>
           <TableHead>Email</TableHead>
+          <TableHead>Additional Data</TableHead>
           <TableHead>Created At</TableHead>
         </TableRow>
       </TableHeader>
@@ -67,6 +70,16 @@ export const SubmissionTable = () => {
             <TableRow key={it.email}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>{it.email}</TableCell>
+              <TableCell className="flex flex-col">
+                {it.additional_data
+                  ? Object.keys(it.additional_data).map((key) => (
+                      <div className="flex" key={key}>
+                        <span className="text-bold capitalize">{key}: </span>
+                        <span>{it.additional_data[key]}</span>
+                      </div>
+                    ))
+                  : "-"}
+              </TableCell>
               <TableCell>{format(it.created_at, "MMM dd, yyyy")}</TableCell>
             </TableRow>
           ))}

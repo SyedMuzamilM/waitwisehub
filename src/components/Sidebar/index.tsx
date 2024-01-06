@@ -104,7 +104,7 @@ export default function Sidebar({ className, onClick }: SidebarProps) {
         <ProjectSelector />
       </div>
       <div className="py-4">
-        {menu(params["project-id"] ?? "").map((item, index) => (
+        {params["project-id"] && menu(params["project-id"] ?? "").map((item, index) => (
           <div key={index} className="px-3 py-2">
             <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
               {item.title}

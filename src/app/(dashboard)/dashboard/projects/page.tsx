@@ -65,7 +65,7 @@ const ProjectsPage = () => {
                 </Card>
               ))}
             <CreateProject>
-              <Card className="cursor-pointer w-full h-full">
+              <Card className="min-h-[215px] cursor-pointer w-full h-full">
                 <CardContent className="w-full h-full flex flex-col gap-4 items-center justify-center">
                   <PlusCircle size="40" />
                   <p>Create New Project</p>
