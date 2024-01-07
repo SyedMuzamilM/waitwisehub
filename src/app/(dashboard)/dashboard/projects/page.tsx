@@ -46,7 +46,7 @@ const ProjectsPage = () => {
         {isLoading ? (
           <Icons.spinner className="animate-spin" />
         ) : (
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             {!isLoading &&
               projects.map((it) => (
                 <Card key={it.short_id}>

@@ -11,6 +11,10 @@ export const POST = async (
   req: NextRequest,
   context: { params: { projectId: string } }
 ) => {
+    const userAgent = req.headers.get('user-agent')
+    const ip = req.ip
+    const geo = req.geo
+    
   const apiKey = await getApiKey(req);
 
   if (!apiKey) {
@@ -38,6 +42,9 @@ export const POST = async (
     .insert({
         email,
         additional_data,
+        geo,
+        ip,
+        user_agent: userAgent,
         form_id: formId
     })
     .select("*")

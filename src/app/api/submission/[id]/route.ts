@@ -4,6 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest, context: { params: { id: string } }) => {
     try {
+        const ip = req.ip;
+        const geo = req.geo;
+        const userAgent = req.headers.get('user-agent')
+
         const url = new URL(req.url)
         const email = url.searchParams.get('email')
         // console.log(req.body)
@@ -19,6 +23,9 @@ export const GET = async (req: NextRequest, context: { params: { id: string } })
 
         const { data, error } = await supabase.from("submissions").insert({
             email,
+            ip,
+            geo,
+            user_agent: userAgent,
             form_id: form.id
         }).select("*")
 
