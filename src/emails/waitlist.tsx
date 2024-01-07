@@ -27,7 +27,7 @@ export const WaitlistEmail: React.FC<
           {additional_data?.name ?? email} has joined the waitlist
         </Heading>
         {Object.keys(additional_data ?? {}).map((key) => (
-          <Row>
+          <Row key={key}>
             <Column>{key}</Column>
             <Column>{additional_data[key]}</Column>
           </Row>
