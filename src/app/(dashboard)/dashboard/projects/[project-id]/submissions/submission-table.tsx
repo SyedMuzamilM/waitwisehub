@@ -18,7 +18,7 @@ import { useParams } from "next/navigation";
 export const SubmissionTable = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<
-    { email: string; additional_data: any; created_at: string }[]
+    { email: string; additional_data: any; created_at: string, ip?: string; geo?: any, user_agent?: string}[]
   >([]);
 
   const params = useParams() as { "project-id": string };
@@ -61,6 +61,9 @@ export const SubmissionTable = () => {
           <TableHead>S. No.</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Additional Data</TableHead>
+          <TableHead>IP</TableHead>
+          <TableHead>GEO</TableHead>
+          <TableHead>User Agent</TableHead>
           <TableHead>Created At</TableHead>
         </TableRow>
       </TableHeader>
@@ -80,6 +83,9 @@ export const SubmissionTable = () => {
                     ))
                   : "-"}
               </TableCell>
+              <TableCell>{it.ip}</TableCell>
+              <TableCell>{it.geo}</TableCell>
+              <TableCell>{it.user_agent}</TableCell>
               <TableCell>{format(it.created_at, "MMM dd, yyyy")}</TableCell>
             </TableRow>
           ))}

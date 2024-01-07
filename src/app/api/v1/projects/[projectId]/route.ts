@@ -1,20 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { WaitlistEmail } from '@/emails/waitlist'
-import { Resend } from 'resend'
+import { WaitlistEmail } from "@/emails/waitlist";
+import { Resend } from "resend";
 import { resendApiKey } from "@/lib/constants";
 
-const resend = new Resend(resendApiKey)
+const resend = new Resend(resendApiKey);
 
 export const POST = async (
   req: NextRequest,
   context: { params: { projectId: string } }
 ) => {
-    const userAgent = req.headers.get('user-agent')
-    const ip = req.ip
-    const geo = req.geo
-    
+  const userAgent = req.headers.get("user-agent");
+  let ip = req.ip;
+  if (!ip) {
+    ip = req.headers.get("X-Forwarded-For") ?? "";
+  }
+  const geo = req.geo;
+
   const apiKey = await getApiKey(req);
 
   if (!apiKey) {
@@ -30,44 +33,44 @@ export const POST = async (
     context.params.projectId,
     tokenUserId,
     supabase
-    );
-    
-    const { email, additional_data } = (await req.json()) as {
-        email: string;
-        additional_data: any;
-    };
-    
-    const { data, error } = await supabase
+  );
+
+  const { email, additional_data } = (await req.json()) as {
+    email: string;
+    additional_data: any;
+  };
+
+  const { data, error } = await supabase
     .from("submissions")
     .insert({
-        email,
-        additional_data,
-        geo,
-        ip,
-        user_agent: userAgent,
-        form_id: formId
+      email,
+      additional_data,
+      geo,
+      ip,
+      user_agent: userAgent,
+      form_id: formId,
     })
     .select("*")
     .limit(1)
     .single();
-    
-    if (error) {
-        return NextResponse.json({
-            error: {
-                message: error.message,
-            },
-        });
-    }
-    
-    await resend.emails.send({
-        from: "waitwisehub <noreply@blackkalu.com>",
-        to: ['smmhd121@gmail.com'],
-        subject: `New submission on BK`,
-        react: WaitlistEmail({ email, additional_data }),
-        text: ''
-    }) 
 
-    // const emailRes = await sendEmail('Hello world')
+  if (error) {
+    return NextResponse.json({
+      error: {
+        message: error.message,
+      },
+    });
+  }
+
+  await resend.emails.send({
+    from: "waitwisehub <noreply@blackkalu.com>",
+    to: ["smmhd121@gmail.com"],
+    subject: `New submission on BK`,
+    react: WaitlistEmail({ email, additional_data }),
+    text: "",
+  });
+
+  // const emailRes = await sendEmail('Hello world')
 
   return NextResponse.json(data);
 };

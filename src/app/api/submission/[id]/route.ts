@@ -4,7 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest, context: { params: { id: string } }) => {
     try {
-        const ip = req.ip;
+        let ip = req.ip;
+        if (!ip) { 
+            ip = req.headers.get('X-Forwarded-For') ?? ''
+        }
         const geo = req.geo;
         const userAgent = req.headers.get('user-agent')
 
