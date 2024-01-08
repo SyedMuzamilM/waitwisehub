@@ -7,6 +7,11 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'WaitWiseHub',
   description: 'Supercharge you launch: Turbo-Boost Early Signups with WaitWiseHub!',
+  twitter: {
+    creator: 'Syed Muzamil',
+    creatorId: 'syedmuzamilm',
+    card: 'summary_large_image'
+  }
 }
 
 export default function RootLayout({
