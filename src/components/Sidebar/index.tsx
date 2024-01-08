@@ -60,16 +60,16 @@ const menu = (id: string): SidebarNavItem[] => [
         href: `/dashboard/projects/${id}/submissions`,
         icon: <Table size={16} />,
       },
-      {
-        title: "Usage",
-        href: `/dashboard/projects/${id}/usage`,
-        icon: <LineChart size={16} />,
-      },
-      {
-        title: "API Key",
-        href: `/dashboard/projects/${id}/api-key`,
-        icon: <Receipt size={16} />,
-      },
+      // {
+      //   title: "Usage",
+      //   href: `/dashboard/projects/${id}/usage`,
+      //   icon: <LineChart size={16} />,
+      // },
+      // {
+      //   title: "API Key",
+      //   href: `/dashboard/projects/${id}/api-key`,
+      //   icon: <Receipt size={16} />,
+      // },
     ],
   },
   // {

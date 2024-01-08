@@ -3,7 +3,15 @@ import { supabase } from "@/lib/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { WaitlistEmail } from "@/emails/waitlist";
 import { Resend } from "resend";
-import { resendApiKey } from "@/lib/constants";
+import { ipGeoApiKey, resendApiKey } from "@/lib/constants";
+
+type Geo = {
+    city?: string;
+    country?: string;
+    region?: string;
+    latitude?: string;
+    longitude?: string;
+  }
 
 const resend = new Resend(resendApiKey);
 
@@ -14,9 +22,21 @@ export const POST = async (
   const userAgent = req.headers.get("user-agent");
   let ip = req.ip;
   if (!ip) {
-    ip = req.headers.get("X-Forwarded-For") ?? "";
+    ip = req.headers.get("X-Forwarded-For")?.split(',')[0] ?? "";
   }
-  const geo = req.geo;
+  let geo: any = req.geo;
+
+  if (!geo && ip) {
+    const res = await fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeoApiKey}&ip=${ip}`)
+    if (res.ok) {
+        const json = await res.json();
+        geo.city = json.city
+        geo.country = json.country_name
+        geo.latitude = json.latitude
+        geo.longitude = json.longitude
+        geo.region = json.continent_code
+    }
+  }
 
   const apiKey = await getApiKey(req);
 
