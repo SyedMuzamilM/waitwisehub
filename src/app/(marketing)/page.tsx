@@ -87,7 +87,7 @@ const Page = () => {
                   >
                     <path d="M5 13l4 4L19 7"></path>
                   </svg>
-                  Customize forms effortlessly for your project's unique style.
+                  Customize forms effortlessly for your project&apos;s unique style.
                 </li>
                 <li className="flex items-center mb-2">
                   <svg

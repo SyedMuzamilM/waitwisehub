@@ -31,9 +31,7 @@ export const GET = async (
 
     const url = new URL(req.url);
     const email = url.searchParams.get("email");
-    // console.log(req.body)
-    // console.log(await req.json())
-    // const { email } = await req.json() as { email: string; }
+    
     const short_id = context.params.id;
 
     const cookieStore = cookies();
