@@ -8,6 +8,9 @@ import Image from 'next/image'
 import { Playfair_Display } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { url } from "@/lib/constants";
+import dynamic from 'next/dynamic'
+
+const IFrame = dynamic(() => import('./components/iframe'), { ssr: false })
 
 const playfaire = Playfair_Display({ subsets: ["latin"] });
 
@@ -132,9 +135,10 @@ const Page = () => {
                 Join the waitlist
             </h2>
             <p className="mb-2">Get early access by joining the waitlist</p>
-            <div className="max-w-sm w-full h-[260px] overflow-hidden">
+            <IFrame />
+            {/* <div className="max-w-sm w-full h-[260px] overflow-hidden">
                 <iframe src={`${url}/w/e/bk`} width="100%" height="100%"/>
-            </div>
+            </div> */}
         </div>
       </section>
       <footer className="bg-mantis-900 py-12">
