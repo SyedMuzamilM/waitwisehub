@@ -10,22 +10,27 @@ export const GET = async (
   try {
     let ip = req.ip;
     if (!ip) {
-      ip = req.headers.get("X-Forwarded-For") ?? "";
+      ip = req.headers.get("X-Forwarded-For")?.split(',')[0] ?? "";
     }
-    let geo: any = req.geo;
+    let geo = req.geo;
 
-    if (!geo && ip) {
-      const res = await fetch(
-        `https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeoApiKey}&ip=${ip}`
-      );
-      if (res.ok) {
-        const json = await res.json();
-        geo.city = json.city;
-        geo.country = json.country_name;
-        geo.latitude = json.latitude;
-        geo.longitude = json.longitude;
-        geo.region = json.continent_code;
-      }
+    if (!geo) {
+      if (ip) {
+        const res = await fetch(
+          `https://ip-api.com/json/${ip}`
+        );
+        if (res.ok) {
+          const json = await res.json();
+          const newgeo = {
+            city: json.city,
+            country: json.country,
+            latitude: json.lat,
+            longitude: json.lon,
+            region: json.regionName
+          }
+          geo = newgeo
+        }
+      } 
     }
     const userAgent = req.headers.get("user-agent");
 
