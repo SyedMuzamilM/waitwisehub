@@ -1,10 +1,15 @@
+"use client";
+
 import { Icons } from "@/components/icons";
 import { url } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { FormMetadata } from "@/types";
 import { PackageCheck } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SuccessMessage } from "./success-message";
+import { Input } from "./components/input";
+import { Button } from "./components/button";
+import { useParams } from "next/navigation";
 
 const alignment = (key: "inline" | "stack") =>
   key === "inline" ? "flex-row" : "flex-col";
@@ -15,81 +20,62 @@ const position = (key: "start" | "center" | "end") =>
     ? "justify-center"
     : "justify-end";
 
-const getColor = (key: string, color: string) => {
-  if (key.includes("border")) {
-    return `border-[${color}]`;
-  } else if (key.includes("text")) {
-    return `text-[${color}]`;
-  } else if (key.includes("background")) {
-    return `bg-[${color}]`;
-  } else if (key.includes("placeholder")) {
-    return `placeholder:text-[${color}]`;
-  }
-};
+const EmbedWaitlistFrom = () => {
+  const params = useParams() as { id: string };
+  const [customForm, setCustomForm] = useState<FormMetadata>();
 
-const EmbedWaitlistFrom = async ({ params }: { params: { id: string } }) => {
-  const res = await fetch(`${url}/api/projects/${params.id}/apperance`, {
-    cache: "no-cache",
-  });
-  const result = await res.json();
-  const customForm = result.custom_form as FormMetadata;
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`${url}/api/projects/${params.id}/apperance`, {
+        cache: "no-cache",
+      });
 
-  if (!customForm) {
-    return (
-      <div className="flex justify-center items-center">
-        <Icons.spinner className="animate-spin" />
-      </div>
-    );
-  }
+      const result = await res.json();
+      setCustomForm(result.custom_form);
+    })();
+  }, []);
 
   return (
-    <section className="">
-      <form
-        method="GET"
-        action={`${url}/api/submission/${params.id}`}
-        className={cn(
-          "flex gap-4",
-          customForm?.alignment && alignment(customForm.alignment),
-          customForm?.position && position(customForm.position)
-        )}
-      >
-        <input
-          type="email"
-          name="email"
-          autoComplete="email"
-          placeholder={customForm?.input_placeholder ?? "Email"}
-          className={cn(
-            "p-2 rounded-xl border-2 border-green-700 text-lg w-full"
-            // customForm?.input && Object.entries(customForm.input).map(([key, color]) =>
-            //   getColor(key, color)
-            // )
-          )}
-          style={{
-            backgroundColor: customForm.input.background_color,
-            color: customForm.input.text_color,
-            borderColor: customForm.input.border_color,
-          }}
-        />
-        <button
-          type="submit"
-          className={cn(
-            "w-full bg-green-700 rounded-xl py-2 text-white font-semibold text-lg"
-            // customForm?.button && Object.entries(customForm.button).map(([key, color]) =>
-            //   getColor(key, color)
-            // )
-          )}
-          style={{
-            backgroundColor: customForm.button.background_color,
-            color: customForm.button.text_color,
-            borderColor: customForm.button.border_color,
-          }}
-        >
-          {customForm?.button_text ?? "Submit"}
-        </button>
-        <SuccessMessage />
-      </form>
-      <p className="flex text-mantis-800 mt-2 gap-1">Powered by {" "} <span className="flex font-bold"><PackageCheck /> waitwisehub</span></p>
-    </section>
+    <>
+      {customForm ? (
+        <section className="">
+          <form
+            method="GET"
+            action={`${url}/api/submission/${params.id}`}
+            className={cn(
+              "flex gap-4",
+              customForm?.alignment && alignment(customForm.alignment),
+              customForm?.position && position(customForm.position)
+            )}
+          >
+            <Input
+              type="email"
+              name="email"
+              autoComplete="email"
+              placeholder={customForm?.input_placeholder ?? "Email"}
+              backgroundColor={customForm?.input?.background_color}
+              borderColor={customForm?.input?.border_color}
+              textColor={customForm?.input?.text_color}
+              placeholderColor={customForm?.input?.placeholder_color}
+            />
+            <Button
+              backgroundColor={customForm?.button?.background_color}
+              borderColor={customForm?.button?.border_color}
+              textColor={customForm?.button?.text_color}
+            >
+              {customForm?.button_text ?? "Submit"}
+            </Button>
+            <SuccessMessage />
+          </form>
+          <p className="flex text-mantis-800 mt-2 gap-1">
+            Powered by{" "}
+            <span className="flex font-bold">
+              <PackageCheck /> waitwisehub
+            </span>
+          </p>
+        </section>
+      ) : null}
+    </>
   );
 };
 
