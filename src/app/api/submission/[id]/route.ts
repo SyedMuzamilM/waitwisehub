@@ -2,24 +2,24 @@ import { supabaseServer } from "@/lib/supabase";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = 'edge'
+export const runtime = "edge";
 
-export const GET = async (
+export const POST = async (
   req: NextRequest,
   context: { params: { id: string } }
 ) => {
+  const formData = await req.formData()
+  
   try {
     let ip = req.ip;
     if (!ip) {
-      ip = req.headers.get("X-Forwarded-For")?.split(',')[0] ?? "";
+      ip = req.headers.get("X-Forwarded-For")?.split(",")[0] ?? "";
     }
     let geo = req.geo;
 
     if (!geo?.city || !geo?.country) {
       if (ip.length) {
-        const res = await fetch(
-          `https://ip-api.com/json/${ip}?fields=61439`
-        );
+        const res = await fetch(`https://ip-api.com/json/${ip}?fields=61439`);
         if (res.ok) {
           const json = await res.json();
           const newgeo = {
@@ -28,17 +28,17 @@ export const GET = async (
             latitude: json.lat,
             longitude: json.lon,
             region: json.regionName,
-            timezone: json.timezone
-          }
-          geo = newgeo
+            timezone: json.timezone,
+          };
+          geo = newgeo;
         }
-      } 
+      }
     }
     const userAgent = req.headers.get("user-agent");
 
     const url = new URL(req.url);
-    const email = url.searchParams.get("email");
-    
+    const email = formData.get("email");
+
     const short_id = context.params.id;
 
     const cookieStore = cookies();
@@ -57,15 +57,22 @@ export const GET = async (
       .limit(1)
       .single();
 
+    const submissionData: any = {
+      email,
+      ip,
+      geo,
+      user_agent: userAgent,
+      form_id: form.id,
+    };
+
+    const ref = url.searchParams.get("ref");
+    if (ref) {
+      submissionData.referred_by = ref;
+    }
+
     const { data, error } = await supabase
       .from("submissions")
-      .insert({
-        email,
-        ip,
-        geo,
-        user_agent: userAgent,
-        form_id: form.id,
-      })
+      .insert(submissionData)
       .select("*");
 
     if (error) {
@@ -76,7 +83,9 @@ export const GET = async (
       });
     }
 
-    return NextResponse.redirect(`${url.origin}/w/e/${short_id}?message=success`)
+    return NextResponse.redirect(
+      `${url.origin}/w/e/${short_id}?message=success`
+    );
   } catch (err: any) {
     console.log({ err });
     return NextResponse.json({

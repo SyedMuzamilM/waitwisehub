@@ -1,6 +1,5 @@
 "use client";
 
-import { Icons } from "@/components/icons";
 import { url } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { FormMetadata } from "@/types";
@@ -9,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import { SuccessMessage } from "./success-message";
 import { Input } from "./components/input";
 import { Button } from "./components/button";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 const alignment = (key: "inline" | "stack") =>
   key === "inline" ? "flex-row" : "flex-col";
@@ -23,6 +22,9 @@ const position = (key: "start" | "center" | "end") =>
 const EmbedWaitlistFrom = () => {
   const params = useParams() as { id: string };
   const [customForm, setCustomForm] = useState<FormMetadata>();
+  const [actionUrl, setActionUrl] = useState(`${url}/api/submission/${params.id}`)
+
+  const s = useSearchParams()
 
   useEffect(() => {
     (async () => {
@@ -33,6 +35,13 @@ const EmbedWaitlistFrom = () => {
       const result = await res.json();
       setCustomForm(result.custom_form);
     })();
+
+    const ref = s.get('ref')
+    if (ref) {
+      const url = actionUrl + '?ref=' + ref
+
+      setActionUrl(url)
+    }
   }, []);
 
   return (
@@ -40,8 +49,8 @@ const EmbedWaitlistFrom = () => {
       {customForm ? (
         <section className="">
           <form
-            method="GET"
-            action={`${url}/api/submission/${params.id}`}
+            method="POST"
+            action={actionUrl}
             className={cn(
               "flex gap-4",
               customForm?.alignment && alignment(customForm.alignment),
