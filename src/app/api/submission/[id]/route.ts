@@ -1,7 +1,8 @@
-import { ipGeoApiKey } from "@/lib/constants";
 import { supabaseServer } from "@/lib/supabase";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+
+export const runtime = 'edge'
 
 export const GET = async (
   req: NextRequest,
@@ -14,8 +15,8 @@ export const GET = async (
     }
     let geo = req.geo;
 
-    if (!geo) {
-      if (ip) {
+    if (!geo?.city || !geo?.country) {
+      if (ip.length) {
         const res = await fetch(
           `https://ip-api.com/json/${ip}`
         );
