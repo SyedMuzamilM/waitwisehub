@@ -3,15 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { WaitlistEmail } from "@/emails/waitlist";
 import { Resend } from "resend";
-import { ipGeoApiKey, resendApiKey } from "@/lib/constants";
-
-type Geo = {
-    city?: string;
-    country?: string;
-    region?: string;
-    latitude?: string;
-    longitude?: string;
-  }
+import { resendApiKey } from "@/lib/constants";
 
 const resend = new Resend(resendApiKey);
 
@@ -26,17 +18,25 @@ export const POST = async (
   }
   let geo: any = req.geo;
 
-  if (!geo && ip) {
-    const res = await fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeoApiKey}&ip=${ip}`)
-    if (res.ok) {
-        const json = await res.json();
-        geo.city = json.city
-        geo.country = json.country_name
-        geo.latitude = json.latitude
-        geo.longitude = json.longitude
-        geo.region = json.continent_code
+  if (!geo?.city || !geo?.country) {
+      if (ip.length) {
+        const res = await fetch(
+          `https://ip-api.com/json/${ip}?fields=61439`
+        );
+        if (res.ok) {
+          const json = await res.json();
+          const newgeo = {
+            city: json.city,
+            country: json.country,
+            latitude: json.lat,
+            longitude: json.lon,
+            region: json.regionName,
+            timezone: json.timezone
+          }
+          geo = newgeo
+        }
+      } 
     }
-  }
 
   const apiKey = await getApiKey(req);
 

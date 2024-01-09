@@ -18,7 +18,7 @@ export const GET = async (
     if (!geo?.city || !geo?.country) {
       if (ip.length) {
         const res = await fetch(
-          `https://ip-api.com/json/${ip}`
+          `https://ip-api.com/json/${ip}?fields=61439`
         );
         if (res.ok) {
           const json = await res.json();
@@ -27,7 +27,8 @@ export const GET = async (
             country: json.country,
             latitude: json.lat,
             longitude: json.lon,
-            region: json.regionName
+            region: json.regionName,
+            timezone: json.timezone
           }
           geo = newgeo
         }
