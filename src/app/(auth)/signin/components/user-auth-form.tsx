@@ -1,61 +1,85 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
+import * as React from "react";
+import { useRouter } from "next/navigation";
 
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { createBrowserClient } from "@supabase/ssr"
-import { supabaseAnonKey, supabaseUrl } from "@/lib/constants"
+import { cn } from "@/lib/utils";
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { createBrowserClient } from "@supabase/ssr";
+import { supabaseAnonKey, supabaseUrl, url } from "@/lib/constants";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  signup?: boolean;
+}
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-    const supabase = createBrowserClient(
-        supabaseUrl,
-        supabaseAnonKey
-    )
+export function UserAuthForm({
+  className,
+  signup = false,
+  ...props
+}: UserAuthFormProps) {
+  const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
 
-    const router = useRouter()
+  const router = useRouter();
 
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [message, setMessage] = React.useState("");
 
   async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
+    event.preventDefault();
+    setIsLoading(true);
 
-    const target = event.target as HTMLFormElement
-    const formData = new FormData(target)
+    const target = event.target as HTMLFormElement;
+    const formData = new FormData(target);
 
-    const email = formData.get("email")?.toString()
-    const password = formData.get("password")?.toString()
+    const email = formData.get("email")?.toString();
+    const password = formData.get("password")?.toString();
 
     if (!email || !password) {
-        setIsLoading(false)
-        return
+      setIsLoading(false);
+      return;
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    if (signup) {
+      const { data, error } = await supabase.auth.signUp({
         email,
-        password
-    })  
-    
-    if (error) {
-        alert(error)
-        setIsLoading(false)
-        return
-    }
+        password,
+        options: {
+          emailRedirectTo: `${url}/dashboard/account`,
+        },
+      });
 
-    if (data) {
-        router.push('/dashboard/projects')
+      if (error) {
+        alert(error);
+        setIsLoading(false);
+        return;
+      }
+
+      if (data) {
+        setMessage("We have sent you the confirmation email");
+      }
+    } else {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        alert(error);
+        setIsLoading(false);
+        return;
+      }
+
+      if (data) {
+        router.push("/dashboard/projects");
+      }
     }
   }
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
+      {message && <p className="">{message}</p>}
       <form onSubmit={onSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
@@ -93,11 +117,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Email
+            {signup ? 'Sign Up with Email' : 'Sign In with Email' }
           </Button>
         </div>
       </form>
-      <div className="relative">
+      {/* <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
@@ -114,7 +138,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <Icons.gitHub className="mr-2 h-4 w-4" />
         )}{" "}
         Github
-      </Button>
+      </Button> */}
     </div>
-  )
+  );
 }

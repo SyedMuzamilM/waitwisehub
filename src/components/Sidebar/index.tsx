@@ -21,6 +21,7 @@ import {
   Receipt,
   Table,
   User,
+  User2Icon,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -84,6 +85,16 @@ const menu = (id: string): SidebarNavItem[] => [
   // },
 ];
 
+const account = {
+  items: [
+    {
+      title: "Account",
+      href: "/dashboard/account",
+      icon: <User2Icon size={16} />,
+    },
+  ],
+};
+
 export default function Sidebar({ className, onClick }: SidebarProps) {
   const pathName = usePathname();
   const params = useParams() as { "project-id": string };
@@ -103,21 +114,29 @@ export default function Sidebar({ className, onClick }: SidebarProps) {
       <div className="px-3 py-2">
         <ProjectSelector />
       </div>
-      <div className="py-4">
-        {params["project-id"] && menu(params["project-id"] ?? "").map((item, index) => (
-          <div key={index} className="px-3 py-2">
-            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-              {item.title}
-            </h2>
-            {item.items ? (
-              <SidebarItems
-                pathName={pathName}
-                onClick={onClick}
-                items={item.items}
-              />
-            ) : null}
-          </div>
-        ))}
+      <div className="flex-1 py-4">
+        {params["project-id"] &&
+          menu(params["project-id"] ?? "").map((item, index) => (
+            <div key={index} className="px-3 py-2">
+              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+                {item.title}
+              </h2>
+              {item.items ? (
+                <SidebarItems
+                  pathName={pathName}
+                  onClick={onClick}
+                  items={item.items}
+                />
+              ) : null}
+            </div>
+          ))}
+      </div>
+      <div className="py-4 px-3">
+        <SidebarItems
+          pathName={pathName}
+          onClick={onClick}
+          items={account.items}
+        />
       </div>
     </div>
   );

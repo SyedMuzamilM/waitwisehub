@@ -27,6 +27,8 @@ export const SubmissionTable = () => {
       ip?: string;
       geo?: any;
       user_agent?: string;
+      ref: string;
+      referred_by?: string;
     }[]
   >([]);
 
@@ -69,6 +71,8 @@ export const SubmissionTable = () => {
         <TableRow>
           <TableHead>S. No.</TableHead>
           <TableHead>Email</TableHead>
+          <TableHead>Referral id</TableHead>
+          <TableHead>Referred by</TableHead>
           <TableHead>Additional Data</TableHead>
           <TableHead>Created At</TableHead>
         </TableRow>
@@ -91,6 +95,8 @@ export const SubmissionTable = () => {
                   </span>
                 </InfoModel>
               </TableCell>
+              <TableCell>{it.ref}</TableCell>
+              <TableCell>{it.referred_by}</TableCell>
               <TableCell className="flex flex-col">
                 {it.additional_data
                   ? Object.keys(it.additional_data).map((key) => (

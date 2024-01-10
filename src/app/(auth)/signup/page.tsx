@@ -1,62 +1,95 @@
-"use client"
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
-import { createBrowserClient } from '@supabase/ssr'
-import { supabaseUrl, supabaseAnonKey, url } from "@/lib/constants"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { UserAuthForm } from "../signin/components/user-auth-form";
+import { PackageCheck } from "lucide-react";
 
-const SignupPage = () => {
-    const supabase = createBrowserClient(
-        supabaseUrl,
-        supabaseAnonKey
-    )
+import opengraphImage from "@/app/opengraph-image.png";
 
-    const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
-        e.preventDefault();
+export const metadata: Metadata = {
+  title: "Authentication",
+  description: "Authentication forms built using the components.",
+};
 
-        const target = e.target as HTMLFormElement
-        const formData = new FormData(target)
-
-        const email = formData.get("email")?.toString()
-        const password = formData.get("password")?.toString()
-        const name = formData.get("name")?.toString()
-
-        if (!email || !password) return
-
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                data: {
-                    'admin': email === 'smmhd121@gmail.com' ? true : false,
-                    name
-                },
-                emailRedirectTo: `${url}/api/auth/callback`
-            }
-        })
-    }
-
-    return (
-        <main>
-            <div className="flex items-center justify-center">
-                <div className="max-w-sm w-full">
-                    <form onSubmit={handleSubmit} className="w-full">
-                        <div className="flex flex-col mb-4">
-                            <label htmlFor="name" className="text-lg">Name</label>
-                            <input type="string" name="name" className="rounded border border-mantis-600 py-2 px-4" placeholder="Name" />
-                        </div>
-                        <div className="flex flex-col mb-4">
-                            <label htmlFor="email" className="text-lg">Email</label>
-                            <input type="email" name="email" className="rounded border border-mantis-600 py-2 px-4" placeholder="Email" />
-                        </div>
-                        <div className="flex flex-col mb-4">
-                            <label htmlFor="password" className="text-lg">Password</label>
-                            <input type="password" name="password" className="rounded border border-mantis-600 py-2 px-4" placeholder="Password" />
-                        </div>
-                        <button className="py-2 w-full bg-mantis-800 text-white rounded">Signup</button>
-                    </form>
-                </div>
+export default function AuthenticationPage() {
+  return (
+    <>
+      <div className="hidden">
+        <Image
+          src={opengraphImage}
+          width={1280}
+          height={843}
+          alt="Authentication"
+          // className="block dark:hidden"
+        />
+        {/* <Image
+          src="/examples/authentication-dark.png"
+          width={1280}
+          height={843}
+          alt="Authentication"
+          // className="hidden dark:block"
+        /> */}
+      </div>
+      <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <Link
+          href="/signin"
+          className={cn(
+            buttonVariants({ variant: "ghost" }),
+            "absolute right-4 top-4 md:right-8 md:top-8"
+          )}
+        >
+          Login
+        </Link>
+        <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
+          <div className="absolute inset-0 bg-zinc-900" />
+          <Link href="/">
+            <div className="relative z-20 flex items-center text-lg font-medium">
+              <PackageCheck />
+              waitwisehub
             </div>
-        </main>
-    )
+          </Link>
+          <div className="relative z-20 mt-auto">
+            <blockquote className="space-y-2">
+              <p className="text-lg">
+                &ldquo;Transform Waiting into Winning – Elevate Your Startup! 🚀
+                Join WaitwiseHub, the Ultimate Waitlist Platform. Focus on
+                Perfecting Your Product, Not Just Collecting Signups!.&rdquo;
+              </p>
+            </blockquote>
+          </div>
+        </div>
+        <div className="lg:p-8">
+          <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+            <div className="flex flex-col space-y-2 text-center">
+              <h1 className="text-2xl font-semibold tracking-tight">Signup</h1>
+              <p className="text-sm text-muted-foreground">
+                Enter your email and password to signup
+              </p>
+            </div>
+            <UserAuthForm signup />
+            <p className="px-8 text-center text-sm text-muted-foreground">
+              By clicking continue, you agree to our{" "}
+              <Link
+                href="/terms"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
-
-export default SignupPage

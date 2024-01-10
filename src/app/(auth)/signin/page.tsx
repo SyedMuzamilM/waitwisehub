@@ -1,18 +1,18 @@
-import { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { UserAuthForm } from "./components/user-auth-form"
-import { PackageCheck } from "lucide-react"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { UserAuthForm } from "./components/user-auth-form";
+import { PackageCheck } from "lucide-react";
 
-import opengraphImage from '@/app/opengraph-image.png'
+import opengraphImage from "@/app/opengraph-image.png";
 
 export const metadata: Metadata = {
   title: "Authentication",
   description: "Authentication forms built using the components.",
-}
+};
 
 export default function AuthenticationPage() {
   return (
@@ -45,16 +45,18 @@ export default function AuthenticationPage() {
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
           <div className="absolute inset-0 bg-zinc-900" />
-          <div className="relative z-20 flex items-center text-lg font-medium">
-            <PackageCheck /> 
-            waitwisehub
-          </div>
+          <Link href="/">
+            <div className="relative z-20 flex items-center text-lg font-medium">
+              <PackageCheck />
+              waitwisehub
+            </div>
+          </Link>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;Transform Waiting into Winning – Elevate Your Startup! 🚀 Join
-              WaitwiseHub, the Ultimate Waitlist Platform. Focus on Perfecting
-              Your Product, Not Just Collecting Signups!.&rdquo;
+                &ldquo;Transform Waiting into Winning – Elevate Your Startup! 🚀
+                Join WaitwiseHub, the Ultimate Waitlist Platform. Focus on
+                Perfecting Your Product, Not Just Collecting Signups!.&rdquo;
               </p>
             </blockquote>
           </div>
@@ -62,9 +64,7 @@ export default function AuthenticationPage() {
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">
-                Login
-              </h1>
+              <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
               <p className="text-sm text-muted-foreground">
                 Enter your email and password to login
               </p>
@@ -91,5 +91,5 @@ export default function AuthenticationPage() {
         </div>
       </div>
     </>
-  )
+  );
 }
