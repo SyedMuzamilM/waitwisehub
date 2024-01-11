@@ -3,6 +3,8 @@ import { stripe } from '@/lib/stripe';
 import { createOrRetrieveCustomer } from '@/db/supabase';
 import { getURL } from '@/lib/helpers';
 import { supabaseServer } from '@/lib/supabase';
+import { getSubscription } from '@/db/supabase-admin';
+import { Stripe } from 'stripe'
 
 export async function POST(req: Request) {
   if (req.method === 'POST') {
@@ -18,10 +20,20 @@ export async function POST(req: Request) {
         uuid: user.id || '',
         email: user.email || ''
       });
-
       if (!customer) throw Error('Could not get customer');
+      // const subscription = await getSubscription(cookieStore)
+      // let flow_data: any = undefined;
+      // if (subscription) {
+      //   flow_data = {
+      //     type: 'subscription_update',
+      //     subscription_update: {
+      //       subscription: (subscription.id as string)
+      //     }
+      //   }
+      // }
       const { url } = await stripe.billingPortal.sessions.create({
         customer,
+        // flow_data,
         return_url: `${getURL()}/dashboard/account`
       });
       return new Response(JSON.stringify({ url }), {

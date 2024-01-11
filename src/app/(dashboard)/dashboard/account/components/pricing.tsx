@@ -4,6 +4,7 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Database } from "@/db/types";
 import { postData } from "@/lib/helpers";
+import { stripe } from "@/lib/stripe";
 import { getStripe } from "@/lib/stripe-client";
 import { cn } from "@/lib/utils";
 import { Session, User } from "@supabase/supabase-js";
@@ -55,8 +56,11 @@ export default function Pricing({
     if (!user) {
       return router.push("/signin");
     }
-    if (subscription) {
-      return router.push("/dashboard/account");
+    if (subscription && subscription.price_id !== price.id) {
+      const { url } = await postData({
+        url: '/api/create-portal-link'
+      });
+      router.push(url)
     }
     try {
       const { sessionId } = await postData({
@@ -271,7 +275,7 @@ export default function Pricing({
                     {priceIdLoading === price.id && (
                       <Icons.spinner className="animate-spin" />
                     )}
-                    {subscription ? "Manage" : "Subscribe"}
+                    {subscription && subscription.price_id !== price.id ? 'Upgrade' : subscription ? 'Manage' : 'Subscribe'}
                   </Button>
                 </div>
               </div>

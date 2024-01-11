@@ -58,14 +58,16 @@ export async function middleware(request: NextRequest) {
 
   const {data: { session }} = await supabase.auth.getSession()
 
+  const url = new URL(request.url)
   if (session) {
-    const subscription: any =  await supabase.from('subscriptions').select('*').eq('user_id', session?.user.id).single()
+    const { data: subscription } =  await supabase.from('subscriptions').select('*').eq('user_id', session?.user.id).single().throwOnError()
     if (!subscription || subscription.status !== "active") {
         if (!request.url.includes('account')) {
-          const url = new URL(request.url)
           return NextResponse.redirect(`${url.origin}/dashboard/account`)
         }
     }
+  } else {
+    return NextResponse.redirect(`${url.origin}/signup`)
   }
 
   return response

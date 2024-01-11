@@ -28,6 +28,21 @@ import { cn } from "@/lib/utils";
 
 import { Button } from "../ui/button";
 import { ProjectSelector } from "./project-selector";
+import { Database } from "@/db/types";
+
+type Subscription = Database["public"]["Tables"]["subscriptions"]["Row"];
+type Product = Database["public"]["Tables"]["products"]["Row"];
+type Price = Database["public"]["Tables"]["prices"]["Row"];
+interface ProductWithPrices extends Product {
+  prices: Price[];
+}
+interface PriceWithProduct extends Price {
+  products: Product | null;
+}
+
+interface SubscriptionWithProduct extends Subscription {
+  prices: PriceWithProduct | null;
+}
 
 export type SidebarNavItem = {
   title: string;
@@ -40,6 +55,7 @@ export type SidebarNavItem = {
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   onClick?: () => void;
+  subscription: SubscriptionWithProduct | null
 }
 
 const menu = (id: string): SidebarNavItem[] => [
@@ -85,6 +101,57 @@ const menu = (id: string): SidebarNavItem[] => [
   // },
 ];
 
+const menuWithApiKeys = (id: string): SidebarNavItem[] => [
+  {
+    title: "Project",
+    items: [
+      {
+        title: "Overview",
+        href: `/dashboard/projects/${id}/overview`,
+        icon: <Home size={16} />,
+      },
+      {
+        title: "Appearance",
+        href: `/dashboard/projects/${id}/appearance`,
+        icon: <GanttChartSquare size={16} />,
+      },
+      {
+        title: "Submissions",
+        href: `/dashboard/projects/${id}/submissions`,
+        icon: <Table size={16} />,
+      },
+      // {
+      //   title: "Usage",
+      //   href: `/dashboard/projects/${id}/usage`,
+      //   icon: <LineChart size={16} />,
+      // },
+      {
+        title: "API Key",
+        href: `/dashboard/projects/${id}/api-key`,
+        icon: <Receipt size={16} />,
+      },
+    ],
+  },
+  // {
+  //   title: "Settings",
+  //   items: [
+  //     {
+  //       title: "Inputs",
+  //       href: "/dashboard/inputs",
+  //       icon: <FormInput size={16} />,
+  //     },
+  //   ],
+  // },
+];
+
+const getMenu = (subscription: SubscriptionWithProduct | null) => {
+  if (subscription && subscription.status === "active" && subscription.prices?.products?.name === "Base") {
+    return menuWithApiKeys
+  } else {
+    return menu;
+  }
+}
+
 const account = {
   items: [
     {
@@ -95,9 +162,11 @@ const account = {
   ],
 };
 
-export default function Sidebar({ className, onClick }: SidebarProps) {
+export default function Sidebar({ className, onClick, subscription }: SidebarProps) {
   const pathName = usePathname();
   const params = useParams() as { "project-id": string };
+
+  const menu = getMenu(subscription)
 
   return (
     <div
