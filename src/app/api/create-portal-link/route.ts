@@ -3,8 +3,6 @@ import { stripe } from '@/lib/stripe';
 import { createOrRetrieveCustomer } from '@/db/supabase';
 import { getURL } from '@/lib/helpers';
 import { supabaseServer } from '@/lib/supabase';
-import { getSubscription } from '@/db/supabase-admin';
-import { Stripe } from 'stripe'
 
 export async function POST(req: Request) {
   if (req.method === 'POST') {
