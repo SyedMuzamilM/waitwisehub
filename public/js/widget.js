@@ -6,19 +6,19 @@
         border: "none"
     };
 
-    const waitwisehubEmbedUrl = "http://localhost:3000/w/e/";
+    const waitwisehubEmbedUrl = "https://waitwisehub.blackkalu.com/w/e/";
 
     // Get current URL and extract the query string
     const currentUrl = window.location.toString();
     const queryString = currentUrl.split("?")[1];
 
     // Module for iframe creation and injection
-    const launchListModule = () => {
+    const waitwisehubModule = () => {
         // Create iframe element with specified attributes
         const iframe = document.createElement("iframe");
         Object.entries(iframeAttributes).forEach(([attr, value]) => iframe.style[attr] = value);
 
-        // Iterate over elements with the class "launchlist-widget"
+        // Iterate over elements with the class "waitwisehub-widget"
         document.querySelectorAll(".waitwisehub-widget").forEach(widgetElement => {
             const widgetKeyId = widgetElement.getAttribute("data-key-id");
 
@@ -41,7 +41,7 @@
 
     // Module loading and execution
     const modules = {
-        847: launchListModule, // Main module for iframe creation and injection
+        847: waitwisehubModule, // Main module for iframe creation and injection
         662: emptyModule1,
         666: emptyModule2
     };

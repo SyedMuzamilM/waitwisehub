@@ -25,12 +25,7 @@ const IFrame = () => {
   }, [])
 
   return (
-    <>
-      <head>
-        <script src="/js/widget.js" defer></script>
-      </head>
       <div className="waitwisehub-widget" data-key-id="bk"></div>
-    </>
   );
 };
 
