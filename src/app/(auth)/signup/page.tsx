@@ -7,8 +7,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { UserAuthForm } from "../signin/components/user-auth-form";
 import { PackageCheck } from "lucide-react";
 
-import opengraphImage from "@/app/opengraph-image.png";
-
 export const metadata: Metadata = {
   title: "Authentication",
   description: "Authentication forms built using the components.",
@@ -18,13 +16,13 @@ export default function AuthenticationPage() {
   return (
     <>
       <div className="hidden">
-        <Image
-          src={opengraphImage}
+        {/* <Image
+          src="/og.png"
           width={1280}
           height={843}
           alt="Authentication"
           // className="block dark:hidden"
-        />
+        /> */}
         {/* <Image
           src="/examples/authentication-dark.png"
           width={1280}
