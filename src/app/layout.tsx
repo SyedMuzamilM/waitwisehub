@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     creator: 'Syed Muzamil',
     creatorId: 'syedmuzamilm',
     card: 'summary_large_image'
+  },
+  openGraph: {
+    images: ['/og.png']
   }
 }
 
