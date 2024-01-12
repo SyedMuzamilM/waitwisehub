@@ -4,6 +4,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { WaitlistEmail } from "@/emails/waitlist";
 import { Resend } from "resend";
 import { resendApiKey } from "@/lib/constants";
+import { hashToken } from "@/lib/auth";
 
 const resend = new Resend(resendApiKey);
 
@@ -98,11 +99,11 @@ export const POST = async (
 const getApiKey = async (req: NextRequest) => {
   const url = new URL(req.url);
   let apiKey = url.searchParams.get("api_key");
-  if (apiKey) return apiKey;
+  if (apiKey) return hashToken(apiKey);
 
   const json = (await req.json()) as { api_key: string };
   apiKey = json.api_key;
-  if (apiKey) return apiKey;
+  if (apiKey) return hashToken(apiKey);
 
   return null;
 };

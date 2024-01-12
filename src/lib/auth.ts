@@ -1,4 +1,4 @@
-import { createHash } from 'crypto'
+import { createHash  } from 'crypto'
 
 export const hashToken = (
   token: string,

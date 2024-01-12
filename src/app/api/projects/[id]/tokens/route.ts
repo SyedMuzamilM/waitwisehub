@@ -125,7 +125,7 @@ export const POST = async (
         hashed_key: hashedKey,
         name,
       })
-      .select("*")
+      .select("name, partial_key, created_at")
       .limit(1)
       .single();
 
@@ -137,7 +137,7 @@ export const POST = async (
       });
     }
 
-    return NextResponse.json(data);
+    return NextResponse.json({ ...data, token });
   } catch (err: any) {
     return NextResponse.json({
       error: {
