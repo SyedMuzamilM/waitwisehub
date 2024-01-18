@@ -8,8 +8,8 @@ export const POST = async (
   req: NextRequest,
   context: { params: { id: string } }
 ) => {
-  const formData = await req.formData()
-  
+  const formData = await req.formData();
+
   try {
     let ip = req.ip;
     if (!ip) {
@@ -56,6 +56,18 @@ export const POST = async (
       .eq("site_id", site.id)
       .limit(1)
       .single();
+
+    const { count } = await supabase
+      .from("submissions")
+      .select("*")
+      .eq("email", email)
+      .eq("form_id", form.id)
+      .single();
+    if (count && count > 0) {
+      return NextResponse.redirect(
+        `${url.origin}/w/e/${short_id}?message=success`
+      );
+    }
 
     const submissionData: any = {
       email,

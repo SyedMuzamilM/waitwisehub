@@ -65,6 +65,7 @@ export function UserAuthForm({
         email,
         password,
       });
+
       if (error) {
         alert(error);
         setIsLoading(false);
@@ -72,6 +73,7 @@ export function UserAuthForm({
       }
 
       if (data) {
+        await supabase.auth.setSession(data.session)
         router.push("/dashboard/projects");
       }
     }

@@ -25,6 +25,7 @@ export type Project = {
 
 export function ProjectSelector() {
   const [projects, setProjects] = useState<Array<Project>>([]);
+  const [selected, setSelected] = useState('')
   const [isLoading, setIsLoading] = useState(false);
 
   const params = useParams() as { "project-id"?: string };
@@ -47,8 +48,12 @@ export function ProjectSelector() {
     fetchProjects();
   }, []);
 
+  useEffect(() => {
+    setSelected(params["project-id"] ?? '')
+  }, [params])
+
   return (
-    <Select defaultValue={!isLoading ? params["project-id"] : undefined}>
+    <Select defaultValue={!isLoading ? selected : undefined}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Projects" />
       </SelectTrigger>
