@@ -52,7 +52,7 @@ export const Markdown: FC<MessageMarkdownProps> = ({ content }) => {
           return (
             <CodeBlock
               key={Math.random()}
-              language={(match && match[1]) || ""}
+              language={(match && match[1]) || "typescript"}
               value={String(childArray).replace(/\n$/, "")}
               {...props}
             />

@@ -86,8 +86,8 @@ export const CodeBlock: FC<CodeBlockProps> = memo(
     }
 
     return (
-      <div className="codeblock relative w-full bg-zinc-950 font-sans">
-        <div className="flex w-full items-center justify-between bg-zinc-700 px-4 text-white">
+      <div className="codeblock relative w-full bg-zinc-950 font-sans rounded-lg">
+        <div className="flex w-full items-center justify-between bg-zinc-700 px-4 text-white rounded-t-lg">
           <span className="text-xs lowercase">{language}</span>
           <div className="flex items-center space-x-1">
             {/* <Button

@@ -20,7 +20,7 @@ const query = `
   }
 }`;
 
-const getInstallationDoc = async () => {
+const getInstallationDoc = async (): Promise<any> => {
   const res = await fetch("https://api.basehub.com/graphql", {
     method: "POST",
     headers: {
@@ -31,6 +31,7 @@ const getInstallationDoc = async () => {
     body: JSON.stringify({
       query,
     }),
+    cache: 'no-cache'
   });
   return await res.json();
 };
