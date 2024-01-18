@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BasicForm } from "./components/basic-form";
 import { LooksForm } from "./components/looks-form";
 import { FormFrame } from "./components/form-frame";
+import Link from "next/link";
 
 const Apperance = () => {
   return (
@@ -25,7 +26,7 @@ const Apperance = () => {
               <h2 className="text-3xl font-medium">Look</h2>
               <p className="text-zinc-700">Customise how the form looks</p>
 
-              <LooksForm />           
+              <LooksForm />
             </TabsContent>
           </Tabs>
           <div className="h-[30rem]"></div>
@@ -34,6 +35,15 @@ const Apperance = () => {
           <div className="sticky bg-zinc-200 overflow-hidden top-32 h-[400px] rounded-xl">
             <div className="p-3">
               <h3 className="text-2xl font-semibold">Preview</h3>
+              <p>
+                Check the installation docs{" "}
+                <Link
+                  href="/docs/installation"
+                  className="underline text-blue-500"
+                >
+                  here
+                </Link>
+              </p>
             </div>
             <div className="h-full pt-4 bg-white">
               <FormFrame />
