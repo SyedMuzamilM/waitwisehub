@@ -47,7 +47,7 @@ export function UserAuthForm({
         email,
         password,
         options: {
-          emailRedirectTo: `${url}/dashboard/account`,
+          emailRedirectTo: `${url}/dashboard/`,
         },
       });
 
@@ -73,7 +73,10 @@ export function UserAuthForm({
       }
 
       if (data) {
-        await supabase.auth.setSession(data.session)
+        await supabase.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+        });
         router.push("/dashboard/projects");
       }
     }
@@ -119,7 +122,7 @@ export function UserAuthForm({
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            {signup ? 'Sign Up with Email' : 'Sign In with Email' }
+            {signup ? "Sign Up with Email" : "Sign In with Email"}
           </Button>
         </div>
       </form>
