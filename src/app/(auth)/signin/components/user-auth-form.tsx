@@ -61,23 +61,22 @@ export function UserAuthForm({
         setMessage("We have sent you the confirmation email");
       }
     } else {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const res = await fetch(`${url}/api/auth/signin`, {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const json = await res.json();
 
-      if (error) {
-        alert(error);
-        setIsLoading(false);
-        return;
-      }
-
-      if (data) {
-        await supabase.auth.setSession({
-          access_token: data.session.access_token,
-          refresh_token: data.session.refresh_token,
-        });
-        router.push("/dashboard/projects");
+      if (json.session) {
+        router.push('/dashboard/projects')
+      } else {
+        alert(json?.error?.message)
       }
     }
   }
