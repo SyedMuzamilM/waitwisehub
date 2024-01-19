@@ -70,7 +70,7 @@ const ChangelogsPage = async () => {
         <h1 className='text-4xl font-bold'>Changelogs</h1>
         <div className='my-4 py-4 bordre-t'>
             {changelogs.map((changelog: Changelog) => (
-                <div className='border p-2 rounded-lg'>
+                <div key={changelog._slug} className='border p-2 rounded-lg'>
                     <h2 className='text-2xl font-medium'>{changelog._title}</h2>
                     <div className="flex justify-between">
                         <span className='flex-shrink-0 bg-mantis-300 px-4 border border-mantis-800 text-mantis-800 font-bold rounded-full'>{changelog.version}</span>
