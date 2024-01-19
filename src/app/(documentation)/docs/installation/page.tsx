@@ -1,5 +1,7 @@
 import React from "react";
 import { Markdown } from "@/components/markdown";
+import { url } from "@/lib/constants";
+import { Metadata } from "next";
 
 const query = `
 {
@@ -35,6 +37,20 @@ const getInstallationDoc = async (): Promise<any> => {
   });
   return await res.json();
 };
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://waitwisehub.blackkalu.com'),
+  title: 'Installation - Docs | WaitWiseHub',
+  description: 'How to install the waitwisehub widget in to your website',
+  twitter: {
+    creator: 'Syed Muzamil',
+    creatorId: 'syedmuzamilm',
+    card: 'summary_large_image'
+  },
+  openGraph: {
+    images: [`${url}/api/og?heading=Installation&mode=dark&type=docs`]
+  }
+}
 
 const InstallationDocs = async () => {
   const data = await getInstallationDoc();
