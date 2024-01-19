@@ -7,4 +7,4 @@ export const emailPass = process.env.NEXT_PUBLIC_EMAIL_PASS!
 export const resendApiKey = process.env.NEXT_PUBLIC_RESEND_API_KEY!
 export const ipGeoApiKey = process.env.NEXT_PUBLIC_IP_GEO_API_KEY!
 
-export const url = process.env.NODE_ENV === "development" ? 'http://localhost:3000' : 'https://waitwisehub.vercel.app'
+export const url = process.env.NODE_ENV === "development" ? 'http://localhost:3000' : 'https://waitwisehub.blackkalu.com'
