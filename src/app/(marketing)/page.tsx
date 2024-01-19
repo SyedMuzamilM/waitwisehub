@@ -17,45 +17,6 @@ const playfaire = Playfair_Display({ subsets: ["latin"] });
 const Page = () => {
   return (
     <React.Fragment>
-      <header className="bg-mantis-900 py-4">
-        <div className="container flex justify-between items-center">
-          <div className="flex items-center md:gap-2">
-            <PackageCheck className="text-mantis-50 text-5xl" />
-            <span className="text-xl md:text-2xl text-mantis-50 font-bold">
-              waitwisehub
-            </span>
-          </div>
-          <div className="hidden lg:block rounded-full px-6 py-2 border border-mantis-50/90">
-            <div className="flex items-center gap-6">
-              <a href="#" className="text-mantis-50">
-                Product
-              </a>
-              <a href="#" className="text-mantis-50">
-                Pricing
-              </a>
-              <a href="#" className="text-mantis-50">
-                Company
-              </a>
-              <a href="#" className="text-mantis-50">
-                Blog
-              </a>
-              <a href="#" className="text-mantis-50">
-                Changelog
-              </a>
-            </div>
-          </div>
-          <div className="flex gap-3 items-center">
-            <Link href="/signin" className="text-white hidden md:block">
-              Login
-            </Link>
-            <Link href="/signup">
-              <button className="rounded-full py-2 px-3 md:px-6 text-brand-dark bg-mantis-50">
-                Get started
-              </button>
-            </Link>
-          </div>
-        </div>
-      </header>
       <HeroSection />
       <section className="relative bg-mantis-300">
         <div className="container py-12 flex flex-col lg:flex-row">
