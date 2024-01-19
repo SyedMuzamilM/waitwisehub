@@ -2,7 +2,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
 import { supabaseServer } from "@/lib/supabase";
-import { url as siteUrl } from '@/lib/constants'
 
 export const POST = async (req: NextRequest) => {
   try {
