@@ -84,7 +84,7 @@ const ChangelogsPage = async () => {
         </div>
         <ul className="flex flex-col space-y-14 lg:col-start-2 lg:col-end-2">
           {changelogs.map((changelog: Changelog) => (
-            <ChangeLog changelog={changelog} />
+            <ChangeLog changelog={changelog} key={changelog._slug} />
           ))}
         </ul>
       </main>
