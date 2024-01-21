@@ -37,6 +37,7 @@ export const SubmissionTable = () => {
   useEffect(() => {
     setIsLoading(true);
     const getData = async () => {
+      await fetch(`${url}/api/projects/${params["project-id"]}/analytics`)
       const res = await fetch(
         `${url}/api/projects/${params["project-id"]}/submissions`
       );

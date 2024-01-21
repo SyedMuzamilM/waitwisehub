@@ -8,6 +8,8 @@ import { hashToken } from "@/lib/auth";
 
 const resend = new Resend(resendApiKey);
 
+export const runtime = "edge";
+
 export const POST = async (
   req: NextRequest,
   context: { params: { projectId: string } }

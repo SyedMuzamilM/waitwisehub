@@ -1,6 +1,7 @@
 import { supabaseServer } from "@/lib/supabase";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { ipAddress, geolocation, } from '@vercel/edge'
 
 export const runtime = "edge";
 
@@ -11,14 +12,11 @@ export const POST = async (
   const formData = await req.formData();
 
   try {
-    let ip = req.ip;
-    if (!ip) {
-      ip = req.headers.get("X-Forwarded-For")?.split(",")[0] ?? "";
-    }
-    let geo = req.geo;
+    let ip = ipAddress(req)
+    let geo = geolocation(req);
 
     if (!geo?.city || !geo?.country) {
-      if (ip.length) {
+      if (ip) {
         const res = await fetch(`https://ip-api.com/json/${ip}?fields=61439`);
         if (res.ok) {
           const json = await res.json();
@@ -27,8 +25,7 @@ export const POST = async (
             country: json.country,
             latitude: json.lat,
             longitude: json.lon,
-            region: json.regionName,
-            timezone: json.timezone,
+            region: json.regionName
           };
           geo = newgeo;
         }

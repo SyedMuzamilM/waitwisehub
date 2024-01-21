@@ -8,7 +8,8 @@ export const hashToken = (
     noSecret?: boolean;
   } = {},
 ) => {
-  return createHash("sha256")
+  const hashedToken = createHash("sha256")
     .update(`${token}${noSecret ? "" : process.env.NEXTAUTH_SECRET}`)
     .digest("hex");
+  return `wwh_${hashedToken}`;
 };
