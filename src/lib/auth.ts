@@ -1,4 +1,4 @@
-import { createHash } from 'crypto'
+import { sha256 } from 'js-sha256'
 
 export const hashToken = (
   token: string,
@@ -8,7 +8,5 @@ export const hashToken = (
     noSecret?: boolean;
   } = {},
 ) => {
-  return createHash("sha256")
-    .update(`${token}${noSecret ? "" : process.env.NEXTAUTH_SECRET}`)
-    .digest("hex");
+  return sha256.hex(`${token}${noSecret ? "" : process.env.NEXTAUTH_SECRET}`) 
 };

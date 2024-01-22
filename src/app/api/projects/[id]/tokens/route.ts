@@ -9,6 +9,8 @@ const generateToken = customAlphabet(
   24
 );
 
+export const runtime = "edge"
+
 export const GET = async (
   req: NextRequest,
   context: { params: { id: string } }
