@@ -109,7 +109,7 @@ export const POST = async (
       });
     }
 
-    const token = generateToken();
+    const token = `wwh_${generateToken()}`;
     const hashedKey = hashToken(token, {
       noSecret: true,
     });
