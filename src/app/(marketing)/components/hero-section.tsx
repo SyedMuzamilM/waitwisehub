@@ -13,15 +13,18 @@ export const HeroSection = () => {
         <div className="mb-12 flex flex-col items-center text-center gap-5">
           <h1
             className={cn(
-              "text-4xl font-extrabold tracking-light sm:text-5xl md:text-6xl lg:text-7xl text-white",
+              "text-4xl font-extrabold tracking-light sm:text-5xl md:text-6xl lg:text-7xl text-white opacity-0 animate-fade-up",
               playfaire.className
             )}
+            style={{ animationDelay: "0.30", animationFillMode: 'forwards'}}
           >
             {/* Supercharge Your Launch: Turbo-Boost Early Signups with
               WaitwiseHub! */}
             <Balancer>WaitWiseHub - Supercharge Your Launch</Balancer>
           </h1>
-          <p className="max-w-[42rem] leading-normal text-gray-400 sm:text-sm md:text-xl sm:leading-0">
+          <p className="max-w-[42rem] leading-normal text-gray-400 sm:text-sm md:text-xl sm:leading-0 opacity-0 animate-fade-up"
+            style={{ animationDelay: '0.35', animationFillMode: 'forwards' }}
+          >
             <Balancer>
               Transform Waiting into Winning – Elevate Your Startup! 🚀 Join
               WaitwiseHub, the Ultimate Waitlist Platform. Focus on Perfecting

@@ -1,21 +1,23 @@
-import type { Config } from "tailwindcss"
-const { default: flattenColorPalette } = require('tailwindcss/lib/util/flattenColorPalette')
+import type { Config } from "tailwindcss";
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}', 
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
       center: true,
       padding: {
-        DEFAULT: '1rem',
-        'md': '2rem'
+        DEFAULT: "1rem",
+        md: "2rem",
       },
       screens: {
         "2xl": "1400px",
@@ -38,7 +40,7 @@ const config = {
         },
         brand: {
           DEFAULT: "#7ed321",
-          dark: '#417505'
+          dark: "#417505",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -88,25 +90,101 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "fade-up": {
+          "0%": {
+            opacity: 0,
+            transform: "translateY(10px)",
+          },
+          "80%": {
+            opacity: 0.7,
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateY(0px)",
+          },
+        },
+        "fade-down": {
+          "0%": {
+            opacity: 0,
+            transform: "translateY(-10px)",
+          },
+          "80%": {
+            opacity: 0.6,
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateY(0px)",
+          },
+        },
+        // Fade in and out
+        "fade-in": {
+          "0%": {
+            opacity: 0,
+          },
+          "50%": {
+            opacity: 0.6,
+          },
+          "100%": {
+            opacity: 1,
+          },
+        },
+        "fade-out": {
+          "0%": {
+            opacity: 0,
+          },
+          "50%": {
+            opacity: 0.6,
+          },
+          "100%": {
+            opacity: 1,
+          },
+        },
+        "fade-right": {
+          "0%": {
+            opacity: 0,
+            left: "-120px",
+          },
+          "50%": {
+            opacity: 0.6,
+          },
+          "100%": {
+            opacity: 1,
+            left: "-112px",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+
+        // Fade up and down
+        "fade-up": "fade-up 0.5s",
+        "fade-down": "fade-down 0.5s",
+
+        // Fade in and out
+        "fade-in": "fade-in 0.4s",
+        "fade-out": "fade-out 0.4s",
+
+        "fade-right": "fade-right 0.4s",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require('@tailwindcss/aspect-ratio'), addVariablesForColors],
-} satisfies Config
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/aspect-ratio"),
+    addVariablesForColors,
+  ],
+} satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
- 
+
   addBase({
     ":root": newVars,
   });
 }
 
-export default config
+export default config;
