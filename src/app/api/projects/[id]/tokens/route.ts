@@ -9,6 +9,8 @@ const generateToken = customAlphabet(
   24
 );
 
+export const runtime = "edge"
+
 export const GET = async (
   req: NextRequest,
   context: { params: { id: string } }
@@ -109,7 +111,7 @@ export const POST = async (
       });
     }
 
-    const token = generateToken();
+    const token = `wwh_${generateToken()}`;
     const hashedKey = hashToken(token, {
       noSecret: true,
     });
