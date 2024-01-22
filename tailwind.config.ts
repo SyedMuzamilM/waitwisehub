@@ -92,63 +92,63 @@ const config = {
         },
         "fade-up": {
           "0%": {
-            opacity: 0,
+            opacity: "0",
             transform: "translateY(10px)",
           },
           "80%": {
-            opacity: 0.7,
+            opacity: "0.7",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
             transform: "translateY(0px)",
           },
         },
         "fade-down": {
           "0%": {
-            opacity: 0,
+            opacity: "0",
             transform: "translateY(-10px)",
           },
           "80%": {
-            opacity: 0.6,
+            opacity: "0.6",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
             transform: "translateY(0px)",
           },
         },
         // Fade in and out
         "fade-in": {
           "0%": {
-            opacity: 0,
+            opacity: "0",
           },
           "50%": {
-            opacity: 0.6,
+            opacity: "0.6",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
           },
         },
         "fade-out": {
           "0%": {
-            opacity: 0,
+            opacity: "0",
           },
           "50%": {
-            opacity: 0.6,
+            opacity: "0.6",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
           },
         },
         "fade-right": {
           "0%": {
-            opacity: 0,
+            opacity: "0",
             left: "-120px",
           },
           "50%": {
-            opacity: 0.6,
+            opacity: "0.6",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
             left: "-112px",
           },
         },
