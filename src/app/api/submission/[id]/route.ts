@@ -9,7 +9,7 @@ export const POST = async (
   req: NextRequest,
   context: { params: { id: string } }
 ) => {
-  const formData = await req.formData();
+  const { email } = await req.json() as any;
 
   try {
     let ip = ipAddress(req)
@@ -34,7 +34,6 @@ export const POST = async (
     const userAgent = req.headers.get("user-agent");
 
     const url = new URL(req.url);
-    const email = formData.get("email");
 
     const short_id = context.params.id;
 
@@ -60,9 +59,10 @@ export const POST = async (
       .eq("email", email)
       .eq("form_id", form.id)
       .single();
-    if (count && count > 0) {
-      return NextResponse.redirect(
-        `${url.origin}/w/e/${short_id}?message=success`
+    if (count) {
+      return NextResponse.json(
+        { success: true },
+        { status: 201 }
       );
     }
 
@@ -92,9 +92,9 @@ export const POST = async (
       });
     }
 
-    return NextResponse.redirect(
-      `${url.origin}/w/e/${short_id}?message=success`
-    );
+    return NextResponse.json({
+      success: true
+    }, { status: 201 })
   } catch (err: any) {
     console.log({ err });
     return NextResponse.json({
