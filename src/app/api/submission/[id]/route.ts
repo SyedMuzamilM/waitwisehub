@@ -1,6 +1,7 @@
 import { supabaseServer } from "@/lib/supabase";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { ipAddress, geolocation, } from '@vercel/edge'
 
 export const runtime = "edge";
 
@@ -8,17 +9,14 @@ export const POST = async (
   req: NextRequest,
   context: { params: { id: string } }
 ) => {
-  const formData = await req.formData();
+  const { email } = await req.json() as any;
 
   try {
-    let ip = req.ip;
-    if (!ip) {
-      ip = req.headers.get("X-Forwarded-For")?.split(",")[0] ?? "";
-    }
-    let geo = req.geo;
+    let ip = ipAddress(req)
+    let geo = geolocation(req);
 
     if (!geo?.city || !geo?.country) {
-      if (ip.length) {
+      if (ip) {
         const res = await fetch(`https://ip-api.com/json/${ip}?fields=61439`);
         if (res.ok) {
           const json = await res.json();
@@ -27,8 +25,7 @@ export const POST = async (
             country: json.country,
             latitude: json.lat,
             longitude: json.lon,
-            region: json.regionName,
-            timezone: json.timezone,
+            region: json.regionName
           };
           geo = newgeo;
         }
@@ -37,7 +34,6 @@ export const POST = async (
     const userAgent = req.headers.get("user-agent");
 
     const url = new URL(req.url);
-    const email = formData.get("email");
 
     const short_id = context.params.id;
 
@@ -63,9 +59,10 @@ export const POST = async (
       .eq("email", email)
       .eq("form_id", form.id)
       .single();
-    if (count && count > 0) {
-      return NextResponse.redirect(
-        `${url.origin}/w/e/${short_id}?message=success`
+    if (count) {
+      return NextResponse.json(
+        { success: true },
+        { status: 201 }
       );
     }
 
@@ -95,9 +92,9 @@ export const POST = async (
       });
     }
 
-    return NextResponse.redirect(
-      `${url.origin}/w/e/${short_id}?message=success`
-    );
+    return NextResponse.json({
+      success: true
+    }, { status: 201 })
   } catch (err: any) {
     console.log({ err });
     return NextResponse.json({

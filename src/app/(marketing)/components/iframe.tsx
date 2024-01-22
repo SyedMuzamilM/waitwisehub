@@ -4,13 +4,7 @@ import { url } from "@/lib/constants";
 import { useEffect, useLayoutEffect, useState } from "react";
 
 const IFrame = () => {
-  const [mounted, setMounted] = useState(false)
-
   useEffect(() => {
-    setMounted(true)
-  }, [])
-  
-  useLayoutEffect(() => {
     const script = document.createElement('script');
     script.src = `${url}/js/widget.js`;
     script.async = true;

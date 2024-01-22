@@ -4,18 +4,20 @@ import React from "react";
 
 export const Header = () => {
   return (
-    <header className="bg-mantis-900 py-4">
+    <header className="bg-[#101010] py-2 fixed top-0 left-0 right-0 z-50 opacity-0 animate-fade-in"
+      style={{ animationDelay: '0.30', animationFillMode: 'forwards' }}
+    >
       <div className="container flex justify-between items-center">
         <Link href="/">
           <div className="flex items-center md:gap-2">
-            <PackageCheck className="text-mantis-50 text-5xl" />
-            <span className="text-xl md:text-2xl text-mantis-50 font-bold">
+            <PackageCheck className="text-[var(--accent-color)] text-5xl" />
+            <span className="text-xl md:text-2xl text-mantis-50 font-medium">
               waitwisehub
             </span>
           </div>
         </Link>
-        <div className="hidden lg:block rounded-full px-6 py-2 border border-mantis-50/90">
-          <div className="flex items-center gap-6">
+        <div className="hidden lg:block rounded-full px-6">
+          <div className="flex items-center gap-6 text-sm">
             <Link href="#" className="text-mantis-50">
               Pricing
             </Link>
@@ -25,7 +27,7 @@ export const Header = () => {
             <Link href="/docs/installation" className="text-mantis-50">
               Docs
             </Link>
-            <Link href="/changelogs" className="text-mantis-50">
+            <Link href="/changelog" className="text-mantis-50">
               Changelog
             </Link>
           </div>
@@ -35,7 +37,7 @@ export const Header = () => {
             Login
           </Link>
           <Link href="/signup">
-            <button className="rounded-full py-2 px-3 md:px-6 text-brand-dark bg-mantis-50">
+            <button className="rounded-full py-2 px-3 md:px-6 text-sm bg-black/50 text-white">
               Get started
             </button>
           </Link>

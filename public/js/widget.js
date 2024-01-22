@@ -28,7 +28,7 @@
 
             // Set iframe height based on "data-height" attribute or default to 180px
             const widgetHeight = widgetElement.getAttribute("data-height");
-            iframe.style.height = widgetHeight || "260px";
+            iframe.style.height = widgetHeight || "200px";
 
             // Append a cloned iframe to the widget element
             widgetElement.appendChild(iframe.cloneNode(true));

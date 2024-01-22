@@ -3,14 +3,16 @@ import Link from "next/link";
 import React from "react";
 import { HeroSection } from "./components/hero-section";
 import Balancer from "react-wrap-balancer";
-import customise from '@/assets/images/appearance.png'
-import Image from 'next/image'
+import customise from "@/assets/images/appearance.png";
+import Image from "next/image";
 import { Playfair_Display } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { url } from "@/lib/constants";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 
-const IFrame = dynamic(() => import('./components/iframe'), { ssr: false })
+const IFrame = dynamic(() => import("./components/iframe"), { ssr: false });
+
+import submission from "@/assets/images/submission.png";
+import submissionDetails from "@/assets/images/submission-details.png";
 
 const playfaire = Playfair_Display({ subsets: ["latin"] });
 
@@ -18,13 +20,13 @@ const Page = () => {
   return (
     <React.Fragment>
       <HeroSection />
-      <section className="relative bg-mantis-300">
+      <section className="relative bg-black/20">
         <div className="container py-12 flex flex-col lg:flex-row">
           <div className="max-w-xl">
-            <span className="bg-mantis-100 border border-mantis-800 rounded-full py-1 px-4 text-sm font-medium text-mantis-800">
+            <span className="pointer-events-none relative z-10 mb-12 flex h-[30px] w-fit select-none items-center justify-center rounded-full border border-[#1B1B1B] bg-gradient-basic px-3.5 text-xs leading-none text-dark-faint">
               Precision in Customization
             </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2 mb-6 text-mantis-950">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2 mb-6 text-black">
               <Balancer>
                 Enhance Your Project with Effortless Refinement of Waitlist
                 Forms.
@@ -51,7 +53,8 @@ const Page = () => {
                   >
                     <path d="M5 13l4 4L19 7"></path>
                   </svg>
-                  Customize forms effortlessly for your project&apos;s unique style.
+                  Customize forms effortlessly for your project&apos;s unique
+                  style.
                 </li>
                 <li className="flex items-center mb-2">
                   <svg
@@ -86,36 +89,71 @@ const Page = () => {
             </div>
           </div>
           <div className="relative mt-6 md:mt-0 w-full h-[320px] md:h-[550px]">
-            <Image src={customise} alt="Customise" fill/>
+            <Image src={customise} alt="Customise" fill />
           </div>
         </div>
       </section>
-      <section className="bg-mantis-100 py-16">
-        <div className="container flex flex-col items-center">
-            <h2 className={cn("text-2xl sm:text-3xl md:text-4xl font-bold text-mantis-800 mb-4", playfaire.className)}>
-                Join the waitlist
+      <section className="relative bg-black">
+        <div className="container py-14">
+          <div className="mx-auto max-w-3xl space-y-4 mb-8">
+            <h2 className="text-4xl font-bold text-white text-center">
+              <Balancer>
+                Maximize Insights with WaitwiseHub's Submissions Table
+              </Balancer>
             </h2>
-            <p className="mb-2">Get early access by joining the waitlist</p>
-            <IFrame />
-            {/* <div className="max-w-sm w-full h-[260px] overflow-hidden">
-                <iframe src={`${url}/w/e/bk`} width="100%" height="100%"/>
-            </div> */}
+            <p className="text-gray-200 text-center">
+              <Balancer>
+                Inform Your Strategy: Access Regional and Device Data for
+                Informed Decision-Making and Personalized Experiences.
+              </Balancer>
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 items-center gap-6">
+            <Image
+              src={submission}
+              alt="Submission Table"
+              className="col-span-2"
+            />
+            <Image src={submissionDetails} alt="Submission Detail" />
+          </div>
         </div>
       </section>
-      <footer className="bg-mantis-900 py-12">
+      <footer className="bg-black border-t py-4">
         <div className="container">
+          <div className="flex justify-between text-zinc-300">
             <div>
-            <div className="flex items-center md:gap-2">
-            <PackageCheck className="text-mantis-50 text-5xl" />
-            <span className="text-xl md:text-2xl text-mantis-50 font-bold">
-              waitwisehub
-            </span>
+              <div className="flex items-center md:gap-2">
+                <PackageCheck className="text-[var(--accent-color)]" />
+                <span className="text-base font-bold">
+                  waitwisehub
+                </span>
+              </div>
+              <p className="text-xs">
+                waitwisehub - supercharge your launch
+              </p>
+            </div>
+            <a
+              target="_blank"
+              rel="noopener"
+              aria-label="X"
+              className="flex h-full w-[47px] items-center justify-center border-dark-border text-dark-elevated transition-colors duration-150 hover:text-dark-faint rounded outline-1 outline-offset-2 outline-dark-control-base focus-visible:outline"
+              href="https://x.com/syedmuzamilm"
+            >
+              <svg
+                className=""
+                viewBox="0 0 21.57 19.5"
+                width="21.57"
+                height="19.5"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16.99 0h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817L3.736 19.5H.426l7.73-8.835L0 0h6.826l4.713 6.231L16.99 0Zm-1.161 17.52h1.833L5.83 1.876H3.863L15.829 17.52Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </a>
           </div>
-          <p className="text-mantis-50 ">waitwisehub - supercharge your launch</p>
-            </div>
-            <div className="my-4 py-4 border-t border-t-mantis-50 text-mantis-50">
-                &copy; {(new Date()).getFullYear()} waitwisehub
-            </div>
         </div>
       </footer>
     </React.Fragment>

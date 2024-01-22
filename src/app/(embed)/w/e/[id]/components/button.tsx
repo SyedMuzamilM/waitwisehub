@@ -16,4 +16,7 @@ export const Button = styled.button<ButtonProps>`
   border-radius: 12px;
   border-width: 2px;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
