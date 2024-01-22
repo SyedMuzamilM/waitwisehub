@@ -4,7 +4,9 @@ import React from "react";
 
 export const Header = () => {
   return (
-    <header className="bg-[#101010] py-2 fixed top-0 left-0 right-0 z-50">
+    <header className="bg-[#101010] py-2 fixed top-0 left-0 right-0 z-50 opacity-0 animate-fade-in"
+      style={{ animationDelay: '0.30', animationFillMode: 'forwards' }}
+    >
       <div className="container flex justify-between items-center">
         <Link href="/">
           <div className="flex items-center md:gap-2">
