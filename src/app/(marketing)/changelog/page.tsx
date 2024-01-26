@@ -7,7 +7,7 @@ import { ChangeLog } from "./components/changelog";
 
 const query = `
 {
-  changelogs {
+  changelogs (orderBy:_sys_createdAt__DESC) {
     _slug
     items {
       _slug
