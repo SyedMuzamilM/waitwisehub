@@ -20,7 +20,7 @@ export default function BarList({
   return (
     <div className="grid gap-4">
       {data.map(({ icon, title, submissions }, idx) => (
-        <div className="group flex items-center justify-between">
+        <div key={idx} className="group flex items-center justify-between">
           <div className="relative z-10 flex w-full max-w-[calc(100%-2rem)] items-center">
             <div key={idx} className="z-10 flex items-center space-x-2 px-2">
               {icon}
