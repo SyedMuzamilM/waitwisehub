@@ -98,7 +98,7 @@ const Page = () => {
           <div className="mx-auto max-w-3xl space-y-4 mb-8">
             <h2 className="text-4xl font-bold text-white text-center">
               <Balancer>
-                Maximize Insights with WaitwiseHub's Submissions Table
+                Maximize Insights with WaitwiseHub&apos;s Submissions Table
               </Balancer>
             </h2>
             <p className="text-gray-200 text-center">
