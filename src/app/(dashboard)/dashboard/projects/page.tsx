@@ -67,6 +67,7 @@ const ProjectsPage = () => {
             {!isLoading &&
               projects.map((it) => (
                 <Link
+                  key={it.site_id}
                   href={`/dashboard/projects/${it.short_id}/overview`}
                   className="group relative flex w-full h-full cursor-default flex-col overflow-hidden rounded-2xl border border-stone-500 bg-white outline-1 outline-offset-2 outline-sone-500 transition-colors duration-200 hover:border-outline-800 hover:bg-stone-100 focus-visible:outline shadow-lg"
                 >
