@@ -15,15 +15,14 @@ export const GET = async (
 
     const { data } = await supabase
       .from("forms")
-      .select("*, site_id(*)")
-      .eq("site_id.short_id", short_id)
+      .select("*, project:site_id(*)")
+      .eq("project.short_id", short_id)
+      .order("created_at", { ascending: false })
       .limit(1)
       .single()
       .throwOnError()
 
-    console.log(data)
-
-    return NextResponse.json(data[0]);
+    return NextResponse.json(data);
   } catch (err) {
     console.log(err)
     return NextResponse.json({
