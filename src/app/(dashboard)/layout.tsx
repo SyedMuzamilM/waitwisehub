@@ -5,6 +5,7 @@ import {
   getSubscription,
   getActiveProductsWithPrices,
 } from "@/db/supabase-admin";
+import Nav from "@/components/Sidebar/side-bar";
 
 const DashboarLayout: React.FC<{
   children: React.ReactNode;
@@ -15,7 +16,8 @@ const DashboarLayout: React.FC<{
   return (
     <main className="flex min-h-screen">
       <div className="flex-1">
-        <Sidebar className="fixed hidden border-r xl:flex" subscription={subscription} />
+        <Nav />
+        {/* <Sidebar className="fixed hidden border-r xl:flex" subscription={subscription} /> */}
         <div className="container mt-12 pb-8 xl:pl-[256px]">{children}</div>
       </div>
     </main>

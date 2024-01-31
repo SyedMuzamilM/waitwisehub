@@ -2,42 +2,31 @@ import { supabaseServer } from "@/lib/supabase";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { generateRandomCode } from "@/lib/rand";
+import { url } from "@/lib/constants";
 
 export const GET = async (req: NextRequest) => {
   try {
     const cookieStore = cookies();
     const supabase = supabaseServer(cookieStore);
+    
     const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
+      data: { session }
+    } = await supabase.auth.getSession()
 
-    if (userError || !user) {
-      return NextResponse.json({
-        error: {
-          message: userError?.message ?? "No User found",
-        },
-      });
+    if (!session) {
+      NextResponse.redirect(`${url}/signin`)
     }
 
     const { data, error } = await supabase
       .from("sites")
       .select("*")
-      .eq("user_id", user.id);
-
-    if (error) {
-      return NextResponse.json({
-        error: {
-          message: error?.message ?? "Something went wrong",
-        },
-      });
-    }
+      .eq("user_id", session?.user.id);
 
     return NextResponse.json(data);
-  } catch (err: any) {
+  } catch (err) {
     return NextResponse.json({
       error: {
-        message: err?.message ?? "Something went wrong",
+        message: err instanceof Error ? err?.message : "Something went wrong",
       },
     });
   }
@@ -97,10 +86,10 @@ export const POST = async (req: NextRequest) => {
     }
 
     return NextResponse.json(data);
-  } catch (err: any) {
+  } catch (err) {
     return NextResponse.json({
       error: {
-        message: err?.message ?? "Something went wrong",
+        message: err instanceof Error ?  err?.message : "Something went wrong",
       },
     });
   }
