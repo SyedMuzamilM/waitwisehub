@@ -8,21 +8,55 @@ export const GET = async (req: NextRequest) => {
   try {
     const cookieStore = cookies();
     const supabase = supabaseServer(cookieStore);
-    
+
     const {
-      data: { session }
-    } = await supabase.auth.getSession()
+      data: { session },
+    } = await supabase.auth.getSession();
 
     if (!session) {
-      NextResponse.redirect(`${url}/signin`)
+      NextResponse.redirect(`${url}/signin`);
     }
 
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("sites")
       .select("*")
-      .eq("user_id", session?.user.id);
+      .eq("user_id", session?.user.id)
+      .order("created_at", { ascending: false })
+      .throwOnError();
 
-    return NextResponse.json(data);
+    // get the sumbissions for each project
+    const result: any[] = [];
+    if (data?.length) {
+      await Promise.all([
+        ...data.map(async (project) => {
+          const { data: submissions } = await supabase
+            .from("submissions")
+            .select("created_at, form:form_id(site_id)")
+            .eq("form.site_id", project.id)
+            .throwOnError();
+
+          const submissionsArray = submissions?.filter((submission: any) => submission.form !== null && submission.form.site_id === project.id) || [];
+
+          const oneHourAgo = new Date();
+          oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+
+          const oneHoursSubmissions =
+            submissionsArray.filter(
+              (submission: any) =>
+                new Date(submission.created_at) > oneHourAgo
+            ).length || 0;
+          const totalSubmissions = submissionsArray.length;
+
+          result.push({
+            ...project,
+            totalSubmissions,
+            oneHoursSubmissions,
+          });
+        }),
+      ]);
+    }
+
+    return NextResponse.json(result);
   } catch (err) {
     return NextResponse.json({
       error: {
@@ -89,7 +123,7 @@ export const POST = async (req: NextRequest) => {
   } catch (err) {
     return NextResponse.json({
       error: {
-        message: err instanceof Error ?  err?.message : "Something went wrong",
+        message: err instanceof Error ? err?.message : "Something went wrong",
       },
     });
   }

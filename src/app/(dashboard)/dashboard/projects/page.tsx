@@ -80,7 +80,7 @@ const ProjectsPage = () => {
                     </div>
                   <div className="flex items-center space-x-2">
                     <UsersRound className="w-4 h-4" />
-                    <p className="font-medium">8 Submissions</p>
+                    <p className="font-medium">{it.totalSubmissions} Submissions</p>
                   </div>
                   </div>
                   <div className="box-content overflow-hidden border-t border-zinc-800 px-[19px] pt-[11px] pb-3">
@@ -89,26 +89,13 @@ const ProjectsPage = () => {
                         <p className="flex items-center space-x-1.5 overflow-hidden whitespace-nowrap text-xs leading-4 text-dark-muted">
                           <UserRoundPlus className="w-4 h-4" />
                           <span className="overflow-hidden overflow-ellipsis">
-                            1 user joined in last hour
+                            {it.oneHoursSubmissions} submissions in last hour
                           </span>
                         </p>
                       </div>
                     </div>
                   </div>
                 </Link>
-                // <Card key={it.short_id} className="rounded-xl group">
-                //   <CardHeader>
-                //     <CardTitle className="text-medium group-hover:underline">{it.name}</CardTitle>
-                //     <CardDescription>
-                //       Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                //     </CardDescription>
-                //   </CardHeader>
-                //   <CardFooter className="flex justify-end">
-                //     <Link href={`/dashboard/projects/${it.short_id}/overview`}>
-                //       <ChevronRightCircle />
-                //     </Link>
-                //   </CardFooter>
-                // </Card>
               ))}
           </div>
         )}
