@@ -1,7 +1,7 @@
 import { supabaseServer } from "@/lib/supabase";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { ipAddress, geolocation, } from '@vercel/edge'
+import { ipAddress, geolocation } from "@vercel/edge";
 
 export const runtime = "edge";
 
@@ -9,10 +9,10 @@ export const POST = async (
   req: NextRequest,
   context: { params: { id: string } }
 ) => {
-  const { email } = await req.json() as any;
+  const { email } = (await req.json()) as any;
 
   try {
-    let ip = ipAddress(req)
+    let ip = ipAddress(req);
     let geo = geolocation(req);
 
     if (!geo?.city || !geo?.country) {
@@ -25,7 +25,7 @@ export const POST = async (
             country: json.country,
             latitude: json.lat,
             longitude: json.lon,
-            region: json.regionName
+            region: json.regionName,
           };
           geo = newgeo;
         }
@@ -40,30 +40,22 @@ export const POST = async (
     const cookieStore = cookies();
     const supabase = supabaseServer(cookieStore);
 
-    const { data: site } = await supabase
-      .from("sites")
-      .select("*")
-      .eq("short_id", short_id)
-      .limit(1)
-      .single();
     const { data: form } = await supabase
       .from("forms")
-      .select("*")
-      .eq("site_id", site.id)
-      .limit(1)
-      .single();
+      .select("*, project:site_id(short_id, id)")
+      .eq("project.short_id", short_id)
+      .single()
+      .throwOnError();
 
     const { count } = await supabase
       .from("submissions")
-      .select("*")
+      .select("email", { count: "exact" })
       .eq("email", email)
       .eq("form_id", form.id)
       .single();
+
     if (count) {
-      return NextResponse.json(
-        { success: true },
-        { status: 201 }
-      );
+      return NextResponse.json({ success: true }, { status: 201 });
     }
 
     const submissionData: any = {
@@ -79,27 +71,22 @@ export const POST = async (
       submissionData.referred_by = ref;
     }
 
-    const { data, error } = await supabase
+    await supabase
       .from("submissions")
       .insert(submissionData)
-      .select("*");
+      .select("*")
+      .throwOnError();
 
-    if (error) {
-      return NextResponse.json({
-        error: {
-          message: error.message,
-        },
-      });
-    }
-
-    return NextResponse.json({
-      success: true
-    }, { status: 201 })
-  } catch (err: any) {
-    console.log({ err });
+    return NextResponse.json(
+      {
+        success: true,
+      },
+      { status: 201 }
+    );
+  } catch (err) {
     return NextResponse.json({
       error: {
-        message: err?.message ?? "Something went wrong",
+        message: err instanceof Error ? err?.message : "Something went wrong",
       },
     });
   }

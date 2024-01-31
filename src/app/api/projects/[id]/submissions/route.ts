@@ -12,51 +12,17 @@ export const GET = async (
     const cookieStore = cookies();
     const supabase = supabaseServer(cookieStore);
 
-    const { data: site, error: siteError } = await supabase
-      .from("sites")
-      .select("*")
-      .eq("short_id", short_id)
-      .limit(1)
-      .single();
-
-    if (siteError) {
-      return NextResponse.json({
-        error: {
-          message: siteError.message,
-        },
-      });
-    }
-
-    const { data: form, error: formError } = await supabase
-      .from("forms")
-      .select("*")
-      .eq("site_id", site.id)
-      .limit(1)
-      .single();
-
-    if (formError) {
-      return NextResponse.json({
-        error: {
-          message: formError?.message ?? "Something went wrong",
-        },
-      });
-    }
-
-    const { data , error } = await supabase.from("submissions").select("*").eq("form_id", form.id);
-
-    if (error) {
-        return NextResponse.json({
-            error: {
-                message: error.message ?? "Something went wrong"
-            }
-        })
-    }
+    const { data } = await supabase
+      .from("submissions")
+      .select("*, form:form_id(site_id, project:site_id(short_id))")
+      .eq("form.project.short_id", short_id)
+      .throwOnError()
 
     return NextResponse.json(data);
   } catch (err: any) {
     return NextResponse.json({
       error: {
-        message: err?.message ?? "Something went wrong",
+        message: err instanceof Error ? err?.message : "Server Error",
       },
     });
   }
