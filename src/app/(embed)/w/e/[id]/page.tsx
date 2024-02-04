@@ -90,6 +90,7 @@ const EmbedWaitlistFrom = () => {
               type="email"
               name="email"
               autoComplete="email"
+              required
               placeholder={customForm?.input_placeholder ?? "Email"}
               backgroundColor={customForm?.input?.background_color}
               borderColor={customForm?.input?.border_color}
@@ -102,6 +103,7 @@ const EmbedWaitlistFrom = () => {
               borderColor={customForm?.button?.border_color}
               textColor={customForm?.button?.text_color}
               disabled={isSubmitting}
+              type="submit"
             >
               {isSubmitting && <Icons.spinner className="mr-2 animate-spin" color="currentColor" /> }
               {customForm?.button_text ?? "Submit"}
@@ -110,7 +112,7 @@ const EmbedWaitlistFrom = () => {
               <p>{message}</p>
             )}
           </form>
-          <p className="flex text-mantis-800 mt-2 gap-1">
+          <p className="flex mt-2 gap-1 text-[var(--accent-color)]">
             Powered by{" "}
             <span className="flex font-bold">
               <PackageCheck /> waitwisehub

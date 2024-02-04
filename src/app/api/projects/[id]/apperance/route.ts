@@ -13,37 +13,21 @@ export const GET = async (
     const cookieStore = cookies();
     const supabase = supabaseServer(cookieStore);
 
-    const { data: site, error: siteError } = await supabase
-      .from("sites")
-      .select("*")
-      .eq("short_id", short_id);
-
-    if (siteError) {
-      return NextResponse.json({
-        error: {
-          message: siteError.message,
-        },
-      });
-    }
-
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("forms")
-      .select("*")
-      .eq("site_id", site[0].id);
+      .select("*, project:site_id(*)")
+      .eq("project.short_id", short_id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single()
+      .throwOnError()
 
-    if (error) {
-      return NextResponse.json({
-        error: {
-          message: error?.message ?? "Something went wrong",
-        },
-      });
-    }
-
-    return NextResponse.json(data[0]);
-  } catch (err: any) {
+    return NextResponse.json(data);
+  } catch (err) {
+    console.log(err)
     return NextResponse.json({
       error: {
-        message: err?.message ?? "Something went wrong",
+        message: err instanceof Error ? err?.message : "Something went wrong",
       },
     });
   }
@@ -64,72 +48,45 @@ export const POST = async (
       data: { session}
     } = await supabase.auth.getSession();
 
-    const { data: site, error: siteError } = await supabase
-      .from("sites")
-      .select("*")
-      .eq("user_id", session?.user.id)
-      .eq("short_id", short_id);
-
-    if (siteError) {
-      return NextResponse.json({
-        error: {
-          message: siteError.message,
-        },
-      });
-    }
-
     const { data: form } = await supabase
       .from("forms")
-      .select("*")
-      .eq("site_id", site[0].id)
-      .limit(1)
-      .single();
+      .select("*, project:site_id(short_id, id)")
+      .eq("project.short_id", short_id)
+      .eq("project.user_id", session?.user.id)
+      .single()
+      .throwOnError()
 
     if (form) {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("forms")
         .update({
-          site_id: site[0].id,
+          site_id: form.project.id,
           custom_form: {
             ...form.custom_form,
             ...metadata 
           },
         })
         .eq("id", form.id)
-        .select("*");
-
-      if (error) {
-        return NextResponse.json({
-          error: {
-            message: error?.message ?? "Something went wrong",
-          },
-        });
-      }
+        .select("*")
+        .throwOnError()
 
       return NextResponse.json(data);
     }
 
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("forms")
       .insert({
-        site_id: site[0].id,
+        site_id: form.project.id,
         custom_form: metadata,
       })
-      .select("*");
-
-    if (error) {
-      return NextResponse.json({
-        error: {
-          message: error?.message ?? "Something went wrong",
-        },
-      });
-    }
+      .select("*")
+      .throwOnError()
 
     return NextResponse.json(data);
-  } catch (err: any) {
+  } catch (err) {
     return NextResponse.json({
       error: {
-        message: err?.message ?? "Something went wrong",
+        message: err instanceof Error ? err?.message : "Something went wrong",
       },
     });
   }

@@ -20,6 +20,8 @@ export type Project = {
   name: string;
   url: string;
   user_id: string;
+  oneHoursSubmissions: number;
+  totalSubmissions: number;
   created_at: string;
 };
 

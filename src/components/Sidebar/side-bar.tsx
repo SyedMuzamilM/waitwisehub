@@ -78,28 +78,28 @@ export default function Nav() {
         },
         {
         name: "Overview",
-        href: `/projects/${params["project-id"]}/overview`,
+        href: `/dashboard/projects/${params["project-id"]}/overview`,
         isActive: segments.includes("overview"),
-        icon: <LayoutDashboard width={18} />,
-      },
-      {
-        name: "Analytics",
-        href: `/projects/${params["project-id"]}/analytics`,
-        isActive: segments.includes("analytics"),
         icon: <BarChart3 width={18} />,
       },
       {
+      name: "Submissions",
+      href: `/dashboard/projects/${params["project-id"]}/submissions`,
+      isActive: segments.includes("submissions"),
+      icon: <LayoutDashboard width={18} />,
+    },
+      {
         name: "Appearance",
-        href: `/projects/${params["project-id"]}/appearance`,
+        href: `/dashboard/projects/${params["project-id"]}/appearance`,
         isActive: segments.includes("appearance"),
         icon: <Globe width={18} />,
       },
-      {
-        name: "Settings",
-        href: "/settings",
-        isActive: segments.includes("settings"),
-        icon: <Settings width={18} />,
-      },
+      // {
+      //   name: "Settings",
+      //   href: `/dashboard/projects/${params["project-id"]}/settings`,
+      //   isActive: segments.includes("settings"),
+      //   icon: <Settings width={18} />,
+      // },
       ];
     }
     return [
@@ -109,12 +109,12 @@ export default function Nav() {
         isActive: segments[1] === "projects",
         icon: <LayoutDashboard width={18} />,
       },
-      {
-        name: "Settings",
-        href: "/dashboard/settings",
-        isActive: segments[1] === "settings",
-        icon: <Settings width={18} />,
-      },
+      // {
+      //   name: "Settings",
+      //   href: "/dashboard/settings",
+      //   isActive: segments[1] === "settings",
+      //   icon: <Settings width={18} />,
+      // },
     ];
   }, [segments, params]);
 
