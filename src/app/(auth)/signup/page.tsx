@@ -7,6 +7,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { UserAuthForm } from "../signin/components/user-auth-form";
 import { PackageCheck } from "lucide-react";
 
+import { Header } from '@/components/header'
+
 export const metadata: Metadata = {
   title: "Authentication",
   description: "Authentication forms built using the components.",
@@ -15,6 +17,9 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
   return (
     <>
+      <div className="md:hidden">
+        <Header />
+      </div>
       <div className="hidden">
         {/* <Image
           src="/og.png"
@@ -31,12 +36,12 @@ export default function AuthenticationPage() {
           // className="hidden dark:block"
         /> */}
       </div>
-      <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0 mt-24 md:mt-0">
         <Link
           href="/signin"
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "absolute right-4 top-4 md:right-8 md:top-8"
+            "absolute right-4 -top-10 md:right-8 md:top-8"
           )}
         >
           Login
