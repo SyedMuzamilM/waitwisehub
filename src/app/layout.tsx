@@ -5,7 +5,7 @@ import './globals.css'
 const montserrat = Montserrat({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://waitwisehub.blackkalu.com'),
+  metadataBase: new URL('https://waitwisehub.vercel.app'),
   title: 'WaitWiseHub',
   description: 'Supercharge you launch: Turbo-Boost Early Signups with WaitWiseHub!',
   twitter: {

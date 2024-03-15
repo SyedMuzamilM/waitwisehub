@@ -39,7 +39,7 @@ const getInstallationDoc = async (): Promise<any> => {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://waitwisehub.blackkalu.com'),
+  metadataBase: new URL('https://waitwisehub.vercel.app'),
   title: 'Installation - Docs | WaitWiseHub',
   description: 'How to install the waitwisehub widget in to your website',
   twitter: {

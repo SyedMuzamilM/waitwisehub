@@ -9,7 +9,7 @@ export const TwitterShare = ({ title, slug }: { title: string; slug: string; }) 
         target="_blank"
         rel="noopener noreferer"
         className="max-w-max flex items-center hover:text-dark-muted transition-colors duration-150 ease-in-out mt-2.5 rounded outline-1 outline-offset-2 outline-dark-control-base focus-visible:outline"
-        href={`https://x.com/intent/tweet?text=${text}.%0A%0A%0A%E2%86%92%20https://waitwisehub.blackkalu.com/changelog/${slug}`}
+        href={`https://x.com/intent/tweet?text=${text}.%0A%0A%0A%E2%86%92%20https://waitwisehub.vercel.app/changelog/${slug}`}
       >
         <svg
           className="w-4 mr-2.5"
