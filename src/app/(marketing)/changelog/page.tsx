@@ -54,7 +54,7 @@ export type Changelog = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://waitwisehub.blackkalu.com"),
+  metadataBase: new URL("https://waitwisehub.vercel.app"),
   title: "Changelogs | WaitWiseHub",
   description: "waitwisehub changelogs - Check new updates to waitwisehub here",
   twitter: {

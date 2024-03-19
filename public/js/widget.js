@@ -6,7 +6,7 @@
         border: "none"
     };
 
-    const waitwisehubEmbedUrl = "https://waitwisehub.blackkalu.com/w/e/";
+    const waitwisehubEmbedUrl = "https://waitwisehub.vercel.app/w/e/";
 
     // Get current URL and extract the query string
     const currentUrl = window.location.toString();
