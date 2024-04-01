@@ -94,12 +94,12 @@ export default function Nav() {
         isActive: segments.includes("appearance"),
         icon: <Globe width={18} />,
       },
-      // {
-      //   name: "Settings",
-      //   href: `/dashboard/projects/${params["project-id"]}/settings`,
-      //   isActive: segments.includes("settings"),
-      //   icon: <Settings width={18} />,
-      // },
+      {
+        name: "Settings",
+        href: `/dashboard/projects/${params["project-id"]}/api-key`,
+        isActive: segments.includes("api-key"),
+        icon: <Settings width={18} />,
+      },
       ];
     }
     return [
@@ -109,12 +109,12 @@ export default function Nav() {
         isActive: segments[1] === "projects",
         icon: <LayoutDashboard width={18} />,
       },
-      // {
-      //   name: "Settings",
-      //   href: "/dashboard/settings",
-      //   isActive: segments[1] === "settings",
-      //   icon: <Settings width={18} />,
-      // },
+      {
+        name: "Settings",
+        href: "/dashboard/account",
+        isActive: segments[1] === "account",
+        icon: <Settings width={18} />,
+      },
     ];
   }, [segments, params]);
 
