@@ -28,7 +28,7 @@ const getInstallationDoc = async (): Promise<any> => {
     headers: {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer bshb_pk_obl7w4jivfrm3gwzumbtvnvtwegfioc4306ki9o7es99an9s8e1wvegvs1p4sgnh",
+        "Bearer bshb_pk_pwt5hppyaelpqoap5k8l7r13a040zghadfczcwxd57gfrtnqfzuy2nupmv3caa4h",
     },
     body: JSON.stringify({
       query,
