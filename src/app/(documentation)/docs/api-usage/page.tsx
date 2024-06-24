@@ -42,21 +42,21 @@ const getInstallationDoc = async (): Promise<any> => {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://waitwisehub.vercel.app'),
-  title: 'Installation - Docs | WaitWiseHub',
-  description: 'How to install the waitwisehub widget in to your website',
+  title: 'API Usage - Docs | WaitWiseHub',
+  description: 'How to use waitwisehub API',
   twitter: {
     creator: 'Syed Muzamil',
     creatorId: 'syedmuzamilm',
     card: 'summary_large_image'
   },
   openGraph: {
-    images: [`${url}/api/og?heading=Installation&mode=dark&type=docs`]
+    images: [`${url}/api/og?heading=API Usage&mode=dark&type=docs`]
   }
 }
 
-const InstallationDocs = async () => {
+const ApiUsage = async () => {
   const data = await getInstallationDoc();
-  const item = data.data.docs.items[0]
+  const item = data.data.docs.items[1]
 
   return (
     <React.Fragment>
@@ -110,4 +110,4 @@ const InstallationDocs = async () => {
   );
 };
 
-export default InstallationDocs;
+export default ApiUsage;

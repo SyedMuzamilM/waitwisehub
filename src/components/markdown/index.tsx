@@ -21,6 +21,15 @@ export const Markdown: FC<MessageMarkdownProps> = ({ content }) => {
         p({ children }) {
           return <p className="mb-2 last:mb-0">{children}</p>
         },
+        li({ children }) {
+          return <li className="list-disc ml-4">{children}</li>
+        },
+        ul({ children }) {
+          return <ul className="list-disc ml-4">{children}</ul>
+        },
+        a({ node, children, ...props }) {
+          return <a className="text-blue-500 hover:underline" {...props}>{children}</a>
+        },
         code({ node, className, children, ...props }) {
           const childArray = React.Children.toArray(children)
           const firstChild = childArray[0] as React.ReactElement
