@@ -37,6 +37,16 @@ const ApiKey = () => {
     fetchApiKeys();
   }, []);
 
+  const handleDelete = async (id: string) => {
+    const res = await fetch(`${url}/api/projects/${params["project-id"]}/tokens/${id}`, { method: "DELETE" })
+    
+    if (res.ok) {
+      setApiKeys((keys) => keys.filter((key) => key.id !== id));
+    } else {
+      alert("Error while deleting API Key")
+    }
+  }
+
   return (
     <div>
       <h1 className="text-4xl font-bold">API Keys</h1>
@@ -76,8 +86,8 @@ const ApiKey = () => {
                     {key.last_used && format(key.last_used, "MMM dd, yyyy")}
                   </td>
                   <th className="flex gap-2 p-2">
-                    <Pencil size={18} className="cursor-pointer" />
-                    <Trash2 size={18} className="cursor-pointer" />
+                    {/* <Pencil size={18} className="cursor-pointer" /> */}
+                    <Trash2 onClick={() => handleDelete(key.id.toString())} size={18} className="cursor-pointer hover:text-red-700" />
                   </th>
                 </tr>
               ))}
@@ -85,10 +95,10 @@ const ApiKey = () => {
           </table>
         </div>
 
-        <GenerateKey>
-            <Button>
+        <GenerateKey setApiKeys={setApiKeys}>
+          <Button>
             <Plus /> Create new secret key
-            </Button>
+          </Button>
         </GenerateKey>
       </div>
     </div>

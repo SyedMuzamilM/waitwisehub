@@ -12,28 +12,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { url } from "@/lib/constants";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ApiKey } from "./page";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import { Icons } from "@/components/icons";
 
-export function GenerateKey({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<(ApiKey & { hashed_key: string }) | null>(
-    null
-  );
+export function GenerateKey({
+  children,
+  setApiKeys,
+}: {
+  children: React.ReactNode;
+  setApiKeys: React.Dispatch<React.SetStateAction<ApiKey[]>>;
+}) {
+  const [token, setToken] = useState<(ApiKey & { token: string }) | null>(null);
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const params = useParams() as { "project-id": string };
 
-  useEffect(() => {
-    setName('')
-    setToken(null)
-  }, [])
-
   const handleCopy = () => {
-    navigator.clipboard.writeText(token!.hashed_key).then(() => {
+    navigator.clipboard.writeText(token!.token).then(() => {
       setCopied(true);
     });
   };
@@ -48,6 +47,11 @@ export function GenerateKey({ children }: { children: React.ReactNode }) {
 
     return clearInterval(timeout);
   }, [copied]);
+
+  useEffect(() => {
+    setName("");
+    setToken(null);
+  }, []);
 
   const handleGenerateApiKey = async () => {
     if (!name) return;
@@ -70,6 +74,7 @@ export function GenerateKey({ children }: { children: React.ReactNode }) {
 
     if (res.ok) {
       setToken(json);
+      setApiKeys((apikeys) => [json, ...apikeys])
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -88,7 +93,7 @@ export function GenerateKey({ children }: { children: React.ReactNode }) {
             </DialogHeader>
             <div className="flex items-center space-x-2">
               <div className="grid flex-1 gap-2">
-                <Input defaultValue={token.hashed_key} readOnly />
+                <Input defaultValue={token.token} readOnly />
               </div>
               <Button
                 onClick={handleCopy}

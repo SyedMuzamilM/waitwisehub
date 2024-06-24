@@ -44,7 +44,7 @@
     "js-sha256": "^0.10.1",
     "lucide-react": "^0.303.0",
     "nanoid": "^5.0.4",
-    "next": "14.0.4",
+    "next": "^14.2.3",
     "nodemailer": "^6.9.8",
     "react": "^18",
     "react-color": "^2.19.3",

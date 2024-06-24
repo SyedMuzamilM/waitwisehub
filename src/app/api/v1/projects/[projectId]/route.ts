@@ -98,13 +98,13 @@ export const POST = async (
   return NextResponse.json(data);
 };
 
+// Todo: API Key should be present in headers as x-api-key
 const getApiKey = async (req: NextRequest) => {
   const url = new URL(req.url);
   let apiKey = url.searchParams.get("api_key");
   if (apiKey) return hashToken(apiKey);
 
-  const json = (await req.json()) as { api_key: string };
-  apiKey = json.api_key;
+  apiKey = req.headers.get("x-api-key")
   if (apiKey) return hashToken(apiKey);
 
   return null;
